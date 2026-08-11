@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-11T00:00:00+02:00",
+  "title": "Design System: Movo",
+  "extensions": {
+    "colorMeta": {
+      "void-black": {
+        "role": "neutral",
+        "displayName": "Void Black",
+        "canonical": "#090A0C",
+        "tonalRamp": ["#050607", "#090A0C", "#0D0F12", "#13161A", "#1A1E23"]
+      },
+      "chrome-mid": {
+        "role": "primary",
+        "displayName": "Optical Chrome",
+        "canonical": "#B8BDC5",
+        "tonalRamp": ["#555A61", "#6F747C", "#9298A1", "#B8BDC5", "#D6DAE0", "#F0F2F5"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Active Wallpaper",
+        "purpose": "Names the current moving image without competing with it."
+      },
+      "body": {
+        "displayName": "Instrument Text",
+        "purpose": "Compact controls, metadata, and calm operational guidance."
+      }
+    },
+    "elevation": {
+      "windowLift": "0 24pt 70pt rgba(0,0,0,0.52)",
+      "inspectorAnchor": "0 16pt 40pt rgba(0,0,0,0.42)",
+      "controlPress": "inset 0 1pt 0 rgba(255,255,255,0.10), inset 0 -1pt 0 rgba(0,0,0,0.45)",
+      "chromeEdge": "inset 0 1pt 0 rgba(255,255,255,0.72), inset 0 -1pt 0 rgba(0,0,0,0.28)"
+    },
+    "gradients": {
+      "opticalChrome": ["#6F747C", "#F0F2F5", "#B8BDC5", "#7E848C"],
+      "graphiteSheen": ["#1A1E23", "#111317", "#1D2025"]
+    },
+    "motion": {
+      "micro": {"duration": "120ms", "curve": "easeOut"},
+      "selection": {"duration": "240ms", "curve": "cubic-bezier(0.22, 1, 0.36, 1)"},
+      "inspector": {"duration": "280ms", "curve": "cubic-bezier(0.22, 1, 0.36, 1)"},
+      "crossfade": {"duration": "180ms", "curve": "easeInOut"},
+      "reducedMotion": "Replace transforms and shared-element movement with a 120ms crossfade."
+    },
+    "breakpoints": {
+      "minimumWindow": "960x640pt",
+      "compactInspector": "Below 1120pt window width, inspector overlays the preview instead of compressing it."
+    },
+    "narrative": {
+      "northStar": "The Black Projection Bench",
+      "scene": "A focused Mac owner adjusts a moving image at a black optical workbench in a dim room, then commits it with one deliberate silver control.",
+      "rules": [
+        "The wallpaper owns color.",
+        "Chrome is earned.",
+        "No glow.",
+        "Preview freely, commit deliberately."
+      ]
+    }
+  }
+}
