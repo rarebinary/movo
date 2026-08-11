@@ -1,9 +1,9 @@
 # Wallpaper Harness
 
-This directory documents the Set Wallpaper safety laboratory. Stage 0 is a
-strictly non-mutating gate: it captures recovery evidence and proves restoration
-only on a disposable fixture before any later experiment may write wallpaper
-state.
+This directory documents the Set Wallpaper safety laboratory. Stage 0 captures
+recovery evidence and first proves restoration on a disposable fixture. A live
+same-byte check may then run either in the dedicated lab account or, after an
+explicit user authorization, in the current graphical account.
 
 ## Current command surface
 
@@ -27,6 +27,33 @@ creates a bundle containing:
 No command in Stage 0 writes the real wallpaper store, restarts WallpaperAgent,
 registers an extension, or changes the active wallpaper.
 
+## Local extension lifecycle
+
+Stage 2 adds a separate, non-mutating installer for the Movo wallpaper
+extension:
+
+```sh
+Scripts/install-local.sh install
+Scripts/install-local.sh status
+Scripts/install-local.sh disable
+Scripts/install-local.sh enable
+Scripts/install-local.sh repair
+Scripts/install-local.sh remove
+```
+
+`install` builds an arm64 Release app, signs nested frameworks first, signs the
+extension with its sandbox entitlement, signs the host last, and installs the
+result at `~/Applications/Movo.app`. It then registers the host and extension
+with LaunchServices and PluginKit. A leading `+` in `status` means enabled; a
+leading `-` means registered but disabled. `repair` repeats signing and
+registration without touching wallpaper selection. `remove` verifies the host
+bundle identifier before unregistering and deleting only that managed install.
+
+The full install/status/disable/enable/repair/remove cycle was exercised on the
+reference macOS 26.3 machine. This proves the ExtensionKit packaging boundary,
+not video rendering or provider activation; no wallpaper state is changed by
+these commands.
+
 ## No-op recovery proof
 
 Run:
@@ -41,7 +68,7 @@ corrupts the fixture, restores it from the bundle, and verifies:
 - byte-for-byte SHA-256 equality;
 - POSIX mode equality;
 - mtime equality;
-- extended-attribute equality when the filesystem supports xattrs.
+- stable extended-attribute equality when the filesystem supports xattrs.
 
 This proves the recovery mechanism on a disposable target only. It does not
 prove recovery of a live wallpaper store, ownership restoration when the
@@ -67,9 +94,8 @@ development.
 
 ## Gate 0 status
 
-The repo can now prove an interrupted no-op recovery on a temporary fixture.
-Gate 0 still requires a separate disposable macOS user account before any real
-wallpaper mutation work:
+The repo can prove an interrupted no-op recovery on a temporary fixture and a
+same-byte live recovery with an explicit account confirmation:
 
 1. capture the live disposable account state;
 2. perform an interrupted no-op experiment that does not change provider choice;
@@ -77,8 +103,11 @@ wallpaper mutation work:
 4. verify the live store checksum and the visible previous wallpaper are
    unchanged.
 
-Until those live disposable-account checks pass, later Set Wallpaper stages must
-remain fail-closed.
+`com.apple.provenance` is reported separately because macOS may attach this
+protected marker during an atomic file replacement and remove it again
+asynchronously. The gate still requires exact store bytes, mode, owner, group,
+mtime, and all nonvolatile xattrs to match. Until those checks and the visual
+confirmation pass, later Set Wallpaper stages remain fail-closed.
 
 ## Disposable-account Gate 0 procedure
 
@@ -105,8 +134,8 @@ Scripts/capture-wallpaper-state.sh verify-live-noop-recovery \
   --i-confirm-disposable-movo-account
 ```
 
-This command is hard-coded to refuse every other account and unexpected home
-directory. It captures the live store, records an interruption before provider
+The disposable flag is hard-coded to refuse every other account and unexpected
+home directory. It captures the live store, records an interruption before provider
 selection, restores the same bytes, and proves checksum, mode, owner, group, and
 mtime equality. It never attempts a provider change. The generated result stays
 in `awaiting-visible-confirmation` until the operator verifies that the same
@@ -121,3 +150,14 @@ Scripts/capture-wallpaper-state.sh confirm-live-noop-recovery \
 Only the resulting `status: passed` report closes Gate 0. Screenshots and raw
 recovery bundles remain local and must not be committed because they may contain
 user- or machine-specific state.
+
+When the current graphical-account owner has explicitly authorized the no-op
+test, the equivalent first phase is:
+
+```sh
+Scripts/capture-wallpaper-state.sh verify-live-noop-recovery \
+  --output-dir /Users/Shared/movo-current-gate0 \
+  --i-confirm-current-account
+```
+
+The helper refuses root and refuses a user that does not own `/dev/console`.

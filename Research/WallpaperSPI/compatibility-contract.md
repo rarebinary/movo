@@ -96,7 +96,7 @@ resolved client is ABI-safe.
 - Update, remote-context, choice-request, and choice-result wrappers request an
   `NSData` value under a semantic type key.
 
-### Unknown — Gate 1 blocker
+### Remaining provider blockers
 
 - The schema and invariants of those opaque data envelopes.
 - The real snapshot wrapper layout.
@@ -119,21 +119,35 @@ These observations show that Wallspace 1.6 contains a direct store-based
 activation path. They do not establish its write ordering, backup behavior,
 notification sequence, or compatibility outside the fingerprint above.
 
-### Unknown — Gate 1 blocker
+### Observed dynamically in two controlled runs
 
-- A runtime choice/XPC selection path has not been proven unavailable.
-- Neither the runtime-choice path nor the store fallback has been reproduced
-  twice with sanitized before/after evidence.
-- Direct store mutation has not been exercised in the disposable `movo-lab`
-  account because that account requires interactive administrator creation.
-- Linked Both, separated desktop/lock-screen, and multi-display precedence have
-  not been established by controlled diffs.
+- Dock sends `getLegacyDesktopPictureConfiguration`, then
+  `setLegacyDesktopPictureConfiguration`, to `WallpaperAgent`.
+- `WallpaperAgent` delegates the image to
+  `com.apple.wallpaper.extension.image` using `addChoiceRequest`.
+- `WallpaperImageExtension` attributes the request to the third-party process,
+  creates a scoped bookmark, and provides view models.
+- The selected store provider remains `com.apple.wallpaper.choice.image`.
+- First application replaces only the image configuration and use timestamps;
+  a repeated application advances only timestamps.
+- Wallspace's Remove action leaves the Apple image fallback in the store.
+
+This proves a supported-by-runtime host path for the static desktop fallback
+and rejects direct store mutation as Movo's primary activation mechanism.
+
+### Still unknown
+
+- How Wallspace coordinates its separately hosted video renderer with the
+  static fallback for catalogue items whose extension library is empty.
+- Linked Both, separated desktop/lock-screen, and multi-display precedence.
+- The opaque request payload needed for Movo's own extension acquisition.
 
 ## Safety decision
 
-This contract is **research-complete enough to narrow the remaining questions,
-but not implementation-complete**. Product SPI code and real provider activation
-remain prohibited until Gate 0 and Gate 1 pass. In particular, Movo must not
-copy Wallspace's store-writing behavior from embedded diagnostics, must not edit
-the current user's store, and must not report Set Wallpaper success from a
-selection write alone.
+Gate 0 and the desktop-selection portion of Gate 1 are now reproducible on the
+recorded build. Product implementation may proceed behind a fingerprinted,
+fail-closed compatibility boundary. Direct store mutation remains prohibited,
+and Movo must not report Set Wallpaper success from the static image selection
+alone: success requires its extension to acquire the managed video and produce
+observable frames. Lock-screen and multi-display behavior remain gated until
+their real lifecycles are exercised.

@@ -50,6 +50,17 @@
                ReferencedContainer = "container:Movo.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6B5FC0C67D2E4CEA6CF926BC"
+               BuildableName = "MovoWallpaperSPITests.xctest"
+               BlueprintName = "MovoWallpaperSPITests"
+               ReferencedContainer = "container:Movo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

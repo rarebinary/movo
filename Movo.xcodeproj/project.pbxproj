@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A9105DF324846C18E0EF927 /* WallpaperCompatibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A45E7C1079F98F692F435DC6 /* WallpaperCompatibilityTests.swift */; };
+		229B696108A8B6C0BEED9635 /* WallpaperRuntimeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F3F64252D036E2C2729B21 /* WallpaperRuntimeLoader.swift */; };
 		23B1548CFD7E4E8E7AAC0FE2 /* MovoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD35B0519DAC12760EA7C2 /* MovoApp.swift */; };
 		2CF429621DEFE8FDFAC21AD8 /* VideoImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296F8B7CD504C014FBC46E44 /* VideoImportTests.swift */; };
+		312AEBA8E8ED357E32FD3889 /* MovoWallpaperExtension.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 97DF175D35A37F9E8CA24742 /* MovoWallpaperExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3584E13CB604B32E8CB581C6 /* WallpaperApplicationModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984211BACCE24E3B84CF2758 /* WallpaperApplicationModelsTests.swift */; };
 		3970A413272C5DC9A39712FA /* WallpaperItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2509EBBD0E4A1DD3C288F6 /* WallpaperItem.swift */; };
 		39C662003B526E97C05D50A2 /* ChromeControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D397566319A3C66B4DB57 /* ChromeControls.swift */; };
@@ -21,18 +24,65 @@
 		58714F4DBC87F2BDFE3F3231 /* ManagedLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A05ADA4DBCF3D936B2A8A7 /* ManagedLibraryTests.swift */; };
 		65CC7F9B89300573F928CF89 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558079F91A27BC19942CE437 /* AppModel.swift */; };
 		665056DF428F44E0C6511300 /* VideoImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7743DC42ECB5DDB522306D11 /* VideoImport.swift */; };
+		6F960EC74CAC17A5FD110798 /* WallpaperExtensionBoundary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FA4E47F99C344E6E2A2955 /* WallpaperExtensionBoundary.swift */; };
+		801C793FE85202C51561795C /* MovoCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8E877C42C6831DF608C403BB /* MovoCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		884351D5DE61D6D17815778C /* WallpaperCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444D468586222C5962B8CF0E /* WallpaperCompatibility.swift */; };
+		A32A9FAB44B5E6EB9061BB15 /* MovoCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E877C42C6831DF608C403BB /* MovoCore.framework */; };
 		A33AD131D8CEDBC8B7C97872 /* VideoInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532EF9F9772141A21A1D7B6F /* VideoInspector.swift */; };
+		AF727E9718245771D27B20EE /* MovoWallpaperSPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B06499CCAC2D4B2244788EC3 /* WallpaperApplicationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0973EFE2C0F74049A9EFE1F /* WallpaperApplicationModels.swift */; };
+		B766E82D93727804FFD4F3CF /* MovoWallpaperExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A695C1DB2A67DDD99764A99 /* MovoWallpaperExtension.swift */; };
 		BA3E96A151B702ED499F30C8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A5828DA7A6FD2438D2865 /* SettingsView.swift */; };
+		BC35689AC8D9D13379C7B83D /* MovoWallpaperSPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */; };
 		BD60134F9ECDC25FB73FD099 /* WorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951DCBE5040DEF3E7B9E1844 /* WorkspaceView.swift */; };
 		D27182CA2D08DC675C3D2022 /* MovoCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8E877C42C6831DF608C403BB /* MovoCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DC1462E7D7CAC84C349E073E /* MovoTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5896EE03D62B00509CCB2 /* MovoTheme.swift */; };
+		E0AF71C0BEB5B16E1EBAC98C /* MovoWallpaperSPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */; };
 		E32D366C71EC36A52782AC87 /* VideoImportExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B55E0D9D8A407FE0AE97121 /* VideoImportExecutor.swift */; };
+		E5AF5246656D902423C18CF6 /* MovoWallpaperSPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */; };
+		E7BFCED66875B4BDDFACC69E /* MovoCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E877C42C6831DF608C403BB /* MovoCore.framework */; };
+		F1BD80F10B63E24B9BBCBB8D /* MovoWallpaperSPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F382458D179C0884C4248269 /* MovoMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35269DFF8CBBDBA06FC40D7B /* MovoMark.swift */; };
+		F56A99A01447C4391E841B5C /* MovoWallpaperSPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		03EC77890867A483FBAEDCCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A85B36AA4B355258F1A2555D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0F2D0137CD01BDBFDDAE1E9B;
+			remoteInfo = MovoWallpaperSPI;
+		};
+		083C922CB6513011263643E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A85B36AA4B355258F1A2555D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0F2D0137CD01BDBFDDAE1E9B;
+			remoteInfo = MovoWallpaperSPI;
+		};
+		73C380313EDA6F1AF54F3A69 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A85B36AA4B355258F1A2555D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ACB72337CBB7C7335AD31EFF;
+			remoteInfo = MovoCore;
+		};
+		A01454CD01774A43E2A2495A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A85B36AA4B355258F1A2555D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B9574DCEB42BB21B7DEA4CE3;
+			remoteInfo = MovoWallpaperExtension;
+		};
 		B614CB26E240BE42B1D934C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A85B36AA4B355258F1A2555D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ACB72337CBB7C7335AD31EFF;
+			remoteInfo = MovoCore;
+		};
+		B725D9D0001E9FF281219D06 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A85B36AA4B355258F1A2555D /* Project object */;
 			proxyType = 1;
@@ -46,9 +96,27 @@
 			remoteGlobalIDString = ACB72337CBB7C7335AD31EFF;
 			remoteInfo = MovoCore;
 		};
+		F9D21FB6133481DB30FAF0A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A85B36AA4B355258F1A2555D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0F2D0137CD01BDBFDDAE1E9B;
+			remoteInfo = MovoWallpaperSPI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		9AA1C3D6440A8781B878A628 /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				312AEBA8E8ED357E32FD3889 /* MovoWallpaperExtension.appex in Embed ExtensionKit Extensions */,
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9CDE9CF88FDD2A1F6896E696 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -60,6 +128,29 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDE21A8E616B3FBE37714B9E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AF727E9718245771D27B20EE /* MovoWallpaperSPI.framework in Embed Frameworks */,
+				801C793FE85202C51561795C /* MovoCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA7055E9EBCDEDC4FF2EF56B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F56A99A01447C4391E841B5C /* MovoWallpaperSPI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ED34112E5C7A44386EC27CDC /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -67,6 +158,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				D27182CA2D08DC675C3D2022 /* MovoCore.framework in Embed Frameworks */,
+				F1BD80F10B63E24B9BBCBB8D /* MovoWallpaperSPI.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,10 +168,15 @@
 /* Begin PBXFileReference section */
 		05A05ADA4DBCF3D936B2A8A7 /* ManagedLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedLibraryTests.swift; sourceTree = "<group>"; };
 		0E2509EBBD0E4A1DD3C288F6 /* WallpaperItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperItem.swift; sourceTree = "<group>"; };
+		22F3F64252D036E2C2729B21 /* WallpaperRuntimeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperRuntimeLoader.swift; sourceTree = "<group>"; };
 		296F8B7CD504C014FBC46E44 /* VideoImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoImportTests.swift; sourceTree = "<group>"; };
 		35269DFF8CBBDBA06FC40D7B /* MovoMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovoMark.swift; sourceTree = "<group>"; };
+		444D468586222C5962B8CF0E /* WallpaperCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCompatibility.swift; sourceTree = "<group>"; };
+		4A695C1DB2A67DDD99764A99 /* MovoWallpaperExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovoWallpaperExtension.swift; sourceTree = "<group>"; };
 		532EF9F9772141A21A1D7B6F /* VideoInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInspector.swift; sourceTree = "<group>"; };
 		558079F91A27BC19942CE437 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovoWallpaperSPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69BCDD75DBF826E6C4E4EC79 /* MovoWallpaperSPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovoWallpaperSPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B55E0D9D8A407FE0AE97121 /* VideoImportExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoImportExecutor.swift; sourceTree = "<group>"; };
 		6F86BAB552FBCBD83EA77EB5 /* ManagedLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedLibrary.swift; sourceTree = "<group>"; };
 		7743DC42ECB5DDB522306D11 /* VideoImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoImport.swift; sourceTree = "<group>"; };
@@ -90,8 +187,11 @@
 		8E877C42C6831DF608C403BB /* MovoCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovoCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F6D397566319A3C66B4DB57 /* ChromeControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeControls.swift; sourceTree = "<group>"; };
 		951DCBE5040DEF3E7B9E1844 /* WorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceView.swift; sourceTree = "<group>"; };
+		97DF175D35A37F9E8CA24742 /* MovoWallpaperExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = MovoWallpaperExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		984211BACCE24E3B84CF2758 /* WallpaperApplicationModelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperApplicationModelsTests.swift; sourceTree = "<group>"; };
+		A45E7C1079F98F692F435DC6 /* WallpaperCompatibilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperCompatibilityTests.swift; sourceTree = "<group>"; };
 		B0973EFE2C0F74049A9EFE1F /* WallpaperApplicationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperApplicationModels.swift; sourceTree = "<group>"; };
+		C9FA4E47F99C344E6E2A2955 /* WallpaperExtensionBoundary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperExtensionBoundary.swift; sourceTree = "<group>"; };
 		CB663C7B520685C2E5C83EAC /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
 		E1DD35B0519DAC12760EA7C2 /* MovoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovoApp.swift; sourceTree = "<group>"; };
 		F0D5896EE03D62B00509CCB2 /* MovoTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovoTheme.swift; sourceTree = "<group>"; };
@@ -99,11 +199,29 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		40A17CD4662B5E99B4200A61 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7BFCED66875B4BDDFACC69E /* MovoCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66E98820107C4342858CA65E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5AF5246656D902423C18CF6 /* MovoWallpaperSPI.framework in Frameworks */,
+				A32A9FAB44B5E6EB9061BB15 /* MovoCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7396530E9809D4C4CD9680D0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				584308E0B60404FE287C75EA /* MovoCore.framework in Frameworks */,
+				E0AF71C0BEB5B16E1EBAC98C /* MovoWallpaperSPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +230,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BD1D32C7C586EB63E76550B /* MovoCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8481F320FF8550269018D734 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC35689AC8D9D13379C7B83D /* MovoWallpaperSPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,8 +259,21 @@
 				7DE6A52B52397F257F9EF678 /* Movo.app */,
 				8E877C42C6831DF608C403BB /* MovoCore.framework */,
 				FE0D43EA585289597B81D086 /* MovoCoreTests.xctest */,
+				97DF175D35A37F9E8CA24742 /* MovoWallpaperExtension.appex */,
+				584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */,
+				69BCDD75DBF826E6C4E4EC79 /* MovoWallpaperSPITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		64869C48F092EF13490DBF2B /* MovoWallpaperSPI */ = {
+			isa = PBXGroup;
+			children = (
+				444D468586222C5962B8CF0E /* WallpaperCompatibility.swift */,
+				C9FA4E47F99C344E6E2A2955 /* WallpaperExtensionBoundary.swift */,
+				22F3F64252D036E2C2729B21 /* WallpaperRuntimeLoader.swift */,
+			);
+			path = MovoWallpaperSPI;
 			sourceTree = "<group>";
 		};
 		708E31974DCE6E1A566F9236 /* MovoCoreTests */ = {
@@ -153,8 +292,19 @@
 				B4F77B8CE6879669CD9CBA5D /* MovoApp */,
 				DE025ACD403A47485E916823 /* MovoCore */,
 				708E31974DCE6E1A566F9236 /* MovoCoreTests */,
+				BBD41E75E8E34A46C846BDE8 /* MovoWallpaperExtension */,
+				64869C48F092EF13490DBF2B /* MovoWallpaperSPI */,
+				B0968C8AB2051C39511E5C87 /* MovoWallpaperSPITests */,
 				356B5F0120EFF883B0F830E4 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		B0968C8AB2051C39511E5C87 /* MovoWallpaperSPITests */ = {
+			isa = PBXGroup;
+			children = (
+				A45E7C1079F98F692F435DC6 /* WallpaperCompatibilityTests.swift */,
+			);
+			path = MovoWallpaperSPITests;
 			sourceTree = "<group>";
 		};
 		B4F77B8CE6879669CD9CBA5D /* MovoApp */ = {
@@ -167,6 +317,14 @@
 				D741AD7A3E08CAE08754F982 /* Views */,
 			);
 			path = MovoApp;
+			sourceTree = "<group>";
+		};
+		BBD41E75E8E34A46C846BDE8 /* MovoWallpaperExtension */ = {
+			isa = PBXGroup;
+			children = (
+				4A695C1DB2A67DDD99764A99 /* MovoWallpaperExtension.swift */,
+			);
+			path = MovoWallpaperExtension;
 			sourceTree = "<group>";
 		};
 		D741AD7A3E08CAE08754F982 /* Views */ = {
@@ -197,6 +355,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0F2D0137CD01BDBFDDAE1E9B /* MovoWallpaperSPI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7F1B3412F49C988F9A179013 /* Build configuration list for PBXNativeTarget "MovoWallpaperSPI" */;
+			buildPhases = (
+				341B03911E3279437AFBF9B1 /* Sources */,
+				40A17CD4662B5E99B4200A61 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA0E68F399FE7901173260D6 /* PBXTargetDependency */,
+			);
+			name = MovoWallpaperSPI;
+			packageProductDependencies = (
+			);
+			productName = MovoWallpaperSPI;
+			productReference = 584AEBCD4A4ED1B917822863 /* MovoWallpaperSPI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		10A55B6A7C396171EE599294 /* MovoCoreTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F9CE3C99DCBF4320C3883394 /* Build configuration list for PBXNativeTarget "MovoCoreTests" */;
@@ -217,18 +394,41 @@
 			productReference = FE0D43EA585289597B81D086 /* MovoCoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		6B5FC0C67D2E4CEA6CF926BC /* MovoWallpaperSPITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6071A598B61127A57543E278 /* Build configuration list for PBXNativeTarget "MovoWallpaperSPITests" */;
+			buildPhases = (
+				D382D1277E4A688494059966 /* Sources */,
+				8481F320FF8550269018D734 /* Frameworks */,
+				DA7055E9EBCDEDC4FF2EF56B /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9E8F1BBA6F3FA7D33D3B08D /* PBXTargetDependency */,
+			);
+			name = MovoWallpaperSPITests;
+			packageProductDependencies = (
+			);
+			productName = MovoWallpaperSPITests;
+			productReference = 69BCDD75DBF826E6C4E4EC79 /* MovoWallpaperSPITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		96E6209094BF90D7FCB493A9 /* Movo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 79FE3DD1767269CA6D7CC817 /* Build configuration list for PBXNativeTarget "Movo" */;
 			buildPhases = (
 				C163D81A41EF458511038C35 /* Sources */,
 				7396530E9809D4C4CD9680D0 /* Frameworks */,
+				9AA1C3D6440A8781B878A628 /* Embed ExtensionKit Extensions */,
 				ED34112E5C7A44386EC27CDC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				E5EA686E9E4639A4DF20965C /* PBXTargetDependency */,
+				AB67D0834569E3515B9F7A2C /* PBXTargetDependency */,
+				82915C69FE7A5D34B61AABCD /* PBXTargetDependency */,
 			);
 			name = Movo;
 			packageProductDependencies = (
@@ -254,6 +454,27 @@
 			productReference = 8E877C42C6831DF608C403BB /* MovoCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		B9574DCEB42BB21B7DEA4CE3 /* MovoWallpaperExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C8A6D5D5098DDD2E7C1BA97 /* Build configuration list for PBXNativeTarget "MovoWallpaperExtension" */;
+			buildPhases = (
+				75AFA87299E6D433C20312AE /* Sources */,
+				66E98820107C4342858CA65E /* Frameworks */,
+				CDE21A8E616B3FBE37714B9E /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CDF7194A9DB16CB1E5A82B9C /* PBXTargetDependency */,
+				CFA8C1E7D91B3FAF088FACBA /* PBXTargetDependency */,
+			);
+			name = MovoWallpaperExtension;
+			packageProductDependencies = (
+			);
+			productName = MovoWallpaperExtension;
+			productReference = 97DF175D35A37F9E8CA24742 /* MovoWallpaperExtension.appex */;
+			productType = "com.apple.product-type.extensionkit-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -263,13 +484,22 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					0F2D0137CD01BDBFDDAE1E9B = {
+						ProvisioningStyle = Automatic;
+					};
 					10A55B6A7C396171EE599294 = {
+						ProvisioningStyle = Automatic;
+					};
+					6B5FC0C67D2E4CEA6CF926BC = {
 						ProvisioningStyle = Automatic;
 					};
 					96E6209094BF90D7FCB493A9 = {
 						ProvisioningStyle = Automatic;
 					};
 					ACB72337CBB7C7335AD31EFF = {
+						ProvisioningStyle = Automatic;
+					};
+					B9574DCEB42BB21B7DEA4CE3 = {
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -290,12 +520,33 @@
 			targets = (
 				ACB72337CBB7C7335AD31EFF /* MovoCore */,
 				96E6209094BF90D7FCB493A9 /* Movo */,
+				0F2D0137CD01BDBFDDAE1E9B /* MovoWallpaperSPI */,
+				B9574DCEB42BB21B7DEA4CE3 /* MovoWallpaperExtension */,
 				10A55B6A7C396171EE599294 /* MovoCoreTests */,
+				6B5FC0C67D2E4CEA6CF926BC /* MovoWallpaperSPITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		341B03911E3279437AFBF9B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				884351D5DE61D6D17815778C /* WallpaperCompatibility.swift in Sources */,
+				6F960EC74CAC17A5FD110798 /* WallpaperExtensionBoundary.swift in Sources */,
+				229B696108A8B6C0BEED9635 /* WallpaperRuntimeLoader.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75AFA87299E6D433C20312AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B766E82D93727804FFD4F3CF /* MovoWallpaperExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7BB3EA0A0AB7CB3D3301CB3D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -325,6 +576,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D382D1277E4A688494059966 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A9105DF324846C18E0EF927 /* WallpaperCompatibilityTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DBD21792F424FB3C8906B73E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -343,10 +602,40 @@
 			target = ACB72337CBB7C7335AD31EFF /* MovoCore */;
 			targetProxy = B614CB26E240BE42B1D934C7 /* PBXContainerItemProxy */;
 		};
+		82915C69FE7A5D34B61AABCD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B9574DCEB42BB21B7DEA4CE3 /* MovoWallpaperExtension */;
+			targetProxy = A01454CD01774A43E2A2495A /* PBXContainerItemProxy */;
+		};
+		AB67D0834569E3515B9F7A2C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0F2D0137CD01BDBFDDAE1E9B /* MovoWallpaperSPI */;
+			targetProxy = 03EC77890867A483FBAEDCCC /* PBXContainerItemProxy */;
+		};
+		CDF7194A9DB16CB1E5A82B9C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0F2D0137CD01BDBFDDAE1E9B /* MovoWallpaperSPI */;
+			targetProxy = F9D21FB6133481DB30FAF0A9 /* PBXContainerItemProxy */;
+		};
+		CFA8C1E7D91B3FAF088FACBA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ACB72337CBB7C7335AD31EFF /* MovoCore */;
+			targetProxy = B725D9D0001E9FF281219D06 /* PBXContainerItemProxy */;
+		};
 		E5EA686E9E4639A4DF20965C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = ACB72337CBB7C7335AD31EFF /* MovoCore */;
 			targetProxy = B8E3B61E22CA8004EF50C76A /* PBXContainerItemProxy */;
+		};
+		E9E8F1BBA6F3FA7D33D3B08D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0F2D0137CD01BDBFDDAE1E9B /* MovoWallpaperSPI */;
+			targetProxy = 083C922CB6513011263643E0 /* PBXContainerItemProxy */;
+		};
+		EA0E68F399FE7901173260D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ACB72337CBB7C7335AD31EFF /* MovoCore */;
+			targetProxy = 73C380313EDA6F1AF54F3A69 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -364,6 +653,29 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.rarebinary.MovoCoreTests;
 				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		26AC88F97234AE65D8E55968 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rarebinary.MovoWallpaperSPI;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -404,6 +716,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -418,6 +731,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -426,6 +740,25 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		4528106DAFA63D6ACAACED8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = MovoWallpaperExtension/MovoWallpaperExtension.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MovoWallpaperExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.rarebinary.Movo.wallpaper-extension";
+				PRODUCT_NAME = MovoWallpaperExtension;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -509,6 +842,80 @@
 			};
 			name = Release;
 		};
+		A301A5DF68BF910871EED476 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rarebinary.MovoWallpaperSPITests;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A81D18381ADF51BBF9673FDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rarebinary.MovoWallpaperSPITests;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		AC293693C3E12B02FDA92787 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = MovoWallpaperExtension/MovoWallpaperExtension.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MovoWallpaperExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.rarebinary.Movo.wallpaper-extension";
+				PRODUCT_NAME = MovoWallpaperExtension;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		B75ED716A641BACB356C7EE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.rarebinary.MovoWallpaperSPI;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
 		E39298706592E2027333CD5C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -564,6 +971,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -584,6 +992,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -607,11 +1016,38 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		5C8A6D5D5098DDD2E7C1BA97 /* Build configuration list for PBXNativeTarget "MovoWallpaperExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC293693C3E12B02FDA92787 /* Debug */,
+				4528106DAFA63D6ACAACED8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6071A598B61127A57543E278 /* Build configuration list for PBXNativeTarget "MovoWallpaperSPITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A81D18381ADF51BBF9673FDD /* Debug */,
+				A301A5DF68BF910871EED476 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		79FE3DD1767269CA6D7CC817 /* Build configuration list for PBXNativeTarget "Movo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				79BF01E56EBAC8B1BCA885A3 /* Debug */,
 				E39298706592E2027333CD5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7F1B3412F49C988F9A179013 /* Build configuration list for PBXNativeTarget "MovoWallpaperSPI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B75ED716A641BACB356C7EE4 /* Debug */,
+				26AC88F97234AE65D8E55968 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

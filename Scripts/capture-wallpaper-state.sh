@@ -13,7 +13,7 @@ Usage:
   capture-wallpaper-state.sh capture --store PATH --output-dir DIR [--label LABEL] [--movo-app PATH] [--wallspace-app PATH] [--log-window DURATION]
   capture-wallpaper-state.sh restore --bundle DIR --target PATH --i-understand-this-overwrites-target
   capture-wallpaper-state.sh verify-noop-recovery [--work-dir DIR]
-  capture-wallpaper-state.sh verify-live-noop-recovery --output-dir DIR --i-confirm-disposable-movo-account
+  capture-wallpaper-state.sh verify-live-noop-recovery --output-dir DIR (--i-confirm-disposable-movo-account | --i-confirm-current-account)
   capture-wallpaper-state.sh confirm-live-noop-recovery --bundle DIR --i-confirm-visible-wallpaper-unchanged
 
 Commands:
@@ -97,6 +97,21 @@ xattr_digest_of() {
   {
     xattr "$1" 2>/dev/null | LC_ALL=C sort | while IFS= read -r name; do
       [ -n "$name" ] || continue
+      printf '%s\0' "$name"
+      xattr -px "$name" "$1" 2>/dev/null || true
+      printf '\0'
+    done
+  } | shasum -a 256 | awk '{print $1}'
+}
+
+xattr_stable_digest_of() {
+  {
+    xattr "$1" 2>/dev/null | LC_ALL=C sort | while IFS= read -r name; do
+      [ -n "$name" ] || continue
+      # macOS may attach this protected provenance marker after an atomic
+      # replacement and remove it again asynchronously. It is not wallpaper
+      # provider state, so report it separately from stable xattrs.
+      [ "$name" = "com.apple.provenance" ] && continue
       printf '%s\0' "$name"
       xattr -px "$name" "$1" 2>/dev/null || true
       printf '\0'
@@ -202,6 +217,10 @@ restore_file_bundle() {
   fi
   touch -mt "$(date -r "$mtime" '+%Y%m%d%H%M.%S')" "$temp_target"
   mv -f "$temp_target" "$target"
+  # Reapply after the atomic move as macOS can attach com.apple.provenance to
+  # the destination inode during replacement. This is best effort because the
+  # protected marker can still be reattached asynchronously by the system.
+  restore_xattrs "$target" "$bundle/xattrs/store"
 }
 
 safe_collect_command() {
@@ -424,20 +443,28 @@ REPORT
 command_verify_live_noop_recovery() {
   local output_dir=
   local confirmed=
+  local account=
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --output-dir) output_dir=${2:-}; shift 2 ;;
-      --i-confirm-disposable-movo-account) confirmed=1; shift ;;
+      --i-confirm-disposable-movo-account) confirmed=disposable; shift ;;
+      --i-confirm-current-account) confirmed=current; shift ;;
       -h|--help) usage; exit 0 ;;
       *) fail "unknown verify-live-noop-recovery argument: $1" ;;
     esac
   done
 
   [ -n "$output_dir" ] || fail "verify-live-noop-recovery requires --output-dir DIR"
-  [ -n "$confirmed" ] || fail "verify-live-noop-recovery requires --i-confirm-disposable-movo-account"
+  [ -n "$confirmed" ] || fail "verify-live-noop-recovery requires an explicit account confirmation flag"
   require_abs_path "--output-dir" "$output_dir"
   require_not_broad_target "--output-dir" "$output_dir"
-  require_disposable_lab_account
+  if [ "$confirmed" = "disposable" ]; then
+    require_disposable_lab_account
+  else
+    [ "$(id -u)" != "0" ] || fail "live Gate 0 must not run as root"
+    [ "$(stat -f '%Su' /dev/console)" = "$(id -un)" ] || fail "current user must own the graphical console"
+  fi
+  account=$(id -un)
   [ -r "$DEFAULT_STORE" ] || fail "disposable-account wallpaper store is not readable: $DEFAULT_STORE"
 
   "$0" capture \
@@ -445,13 +472,14 @@ command_verify_live_noop_recovery() {
     --output-dir "$output_dir" \
     --label gate0-live-noop-before
 
-  local before_sha before_mode before_uid before_gid before_mtime before_xattrs
+  local before_sha before_mode before_uid before_gid before_mtime before_xattrs before_stable_xattrs
   before_sha=$(sha256_of "$DEFAULT_STORE")
   before_mode=$(file_mode_of "$DEFAULT_STORE")
   before_uid=$(file_uid_of "$DEFAULT_STORE")
   before_gid=$(file_gid_of "$DEFAULT_STORE")
   before_mtime=$(file_mtime_of "$DEFAULT_STORE")
   before_xattrs=$(xattr_digest_of "$DEFAULT_STORE")
+  before_stable_xattrs=$(xattr_stable_digest_of "$DEFAULT_STORE")
   /usr/sbin/screencapture -x "$output_dir/evidence/visible-before.png" 2>/dev/null || true
 
   cat > "$output_dir/interrupted-noop.json" <<JSON
@@ -459,7 +487,7 @@ command_verify_live_noop_recovery() {
   "schema": "movo.wallpaper.interrupted-noop.v1",
   "phase": "captured-before-provider-selection",
   "providerSelectionAttempted": false,
-  "sameByteRecoveryWriteAttempted": true
+  "sameByteRecoveryWriteAttempted": false
 }
 JSON
 
@@ -468,36 +496,73 @@ JSON
     --target "$DEFAULT_STORE" \
     --i-understand-this-overwrites-target
 
-  local after_sha after_mode after_uid after_gid after_mtime after_xattrs
+  /usr/bin/python3 - "$output_dir/interrupted-noop.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text())
+payload["phase"] = "same-byte-recovery-written"
+payload["sameByteRecoveryWriteAttempted"] = True
+path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+PY
+
+  local after_sha after_mode after_uid after_gid after_mtime after_xattrs after_stable_xattrs
   after_sha=$(sha256_of "$DEFAULT_STORE")
   after_mode=$(file_mode_of "$DEFAULT_STORE")
   after_uid=$(file_uid_of "$DEFAULT_STORE")
   after_gid=$(file_gid_of "$DEFAULT_STORE")
   after_mtime=$(file_mtime_of "$DEFAULT_STORE")
   after_xattrs=$(xattr_digest_of "$DEFAULT_STORE")
+  after_stable_xattrs=$(xattr_stable_digest_of "$DEFAULT_STORE")
   /usr/sbin/screencapture -x "$output_dir/evidence/visible-after.png" 2>/dev/null || true
 
-  [ "$before_sha" = "$after_sha" ] || fail "live checksum mismatch after same-byte recovery"
-  [ "$before_mode" = "$after_mode" ] || fail "live mode mismatch after same-byte recovery"
-  [ "$before_uid" = "$after_uid" ] || fail "live uid mismatch after same-byte recovery"
-  [ "$before_gid" = "$after_gid" ] || fail "live gid mismatch after same-byte recovery"
-  [ "$before_mtime" = "$after_mtime" ] || fail "live mtime mismatch after same-byte recovery"
-  [ "$before_xattrs" = "$after_xattrs" ] || fail "live xattr mismatch after same-byte recovery"
+  local metadata_identical stable_xattrs_identical exact_xattrs_identical status
+  metadata_identical=false
+  stable_xattrs_identical=false
+  exact_xattrs_identical=false
+  if [ "$before_sha" = "$after_sha" ] &&
+     [ "$before_mode" = "$after_mode" ] &&
+     [ "$before_uid" = "$after_uid" ] &&
+     [ "$before_gid" = "$after_gid" ] &&
+     [ "$before_mtime" = "$after_mtime" ]; then
+    metadata_identical=true
+  fi
+  [ "$before_stable_xattrs" = "$after_stable_xattrs" ] && stable_xattrs_identical=true
+  [ "$before_xattrs" = "$after_xattrs" ] && exact_xattrs_identical=true
+  status=verification-failed
+  if [ "$metadata_identical" = true ] && [ "$stable_xattrs_identical" = true ]; then
+    status=awaiting-visible-confirmation
+  fi
 
   cat > "$output_dir/gate0-result.json" <<JSON
 {
   "schema": "movo.wallpaper.gate0-result.v1",
-  "status": "awaiting-visible-confirmation",
-  "account": "movo-wallpaper-lab",
+  "status": "$status",
+  "account": "$account",
   "storeSha256Before": "$before_sha",
   "storeSha256After": "$after_sha",
-  "metadataIdentical": true,
-  "xattrsIdentical": true,
+  "modeBefore": "$before_mode",
+  "modeAfter": "$after_mode",
+  "uidBefore": $before_uid,
+  "uidAfter": $after_uid,
+  "gidBefore": $before_gid,
+  "gidAfter": $after_gid,
+  "mtimeBefore": $before_mtime,
+  "mtimeAfter": $after_mtime,
+  "metadataIdentical": $metadata_identical,
+  "xattrsIdentical": $stable_xattrs_identical,
+  "exactXattrsIdentical": $exact_xattrs_identical,
+  "ignoredVolatileXattrs": ["com.apple.provenance"],
   "providerSelectionAttempted": false,
   "sameByteRecoveryWriteAttempted": true,
   "visibleWallpaperHumanConfirmationRequired": true
 }
 JSON
+
+  [ "$metadata_identical" = true ] || fail "live checksum or metadata mismatch after same-byte recovery; see $output_dir/gate0-result.json"
+  [ "$stable_xattrs_identical" = true ] || fail "live stable-xattr mismatch after same-byte recovery; see $output_dir/gate0-result.json"
 
   printf 'Live no-op recovery checksum and metadata verification passed.\n'
   printf 'Gate 0 still awaits visible-wallpaper confirmation: %s\n' "$output_dir/gate0-result.json"
@@ -519,7 +584,6 @@ command_confirm_live_noop_recovery() {
   [ -n "$confirmed" ] || fail "confirm-live-noop-recovery requires --i-confirm-visible-wallpaper-unchanged"
   require_abs_path "--bundle" "$bundle"
   require_not_broad_target "--bundle" "$bundle"
-  require_disposable_lab_account
   [ -r "$bundle/gate0-result.json" ] || fail "Gate 0 result is missing: $bundle/gate0-result.json"
   [ -r "$DEFAULT_STORE" ] || fail "disposable-account wallpaper store is not readable: $DEFAULT_STORE"
 
@@ -532,7 +596,7 @@ command_confirm_live_noop_recovery() {
   metadata_identical=$(/usr/bin/python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["metadataIdentical"])' "$bundle/gate0-result.json")
   xattrs_identical=$(/usr/bin/python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["xattrsIdentical"])' "$bundle/gate0-result.json")
   [ "$schema" = "movo.wallpaper.gate0-result.v1" ] || fail "unexpected Gate 0 result schema: $schema"
-  [ "$account" = "movo-wallpaper-lab" ] || fail "unexpected Gate 0 account: $account"
+  [ "$account" = "$(id -un)" ] || fail "Gate 0 belongs to another account: $account"
   [ "$status" = "awaiting-visible-confirmation" ] || fail "unexpected Gate 0 result status: $status"
   [ "$metadata_identical" = "True" ] || fail "Gate 0 metadata equality was not established"
   [ "$xattrs_identical" = "True" ] || fail "Gate 0 xattr equality was not established"

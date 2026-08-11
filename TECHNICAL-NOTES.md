@@ -21,9 +21,31 @@ Movo therefore keeps this integration behind a narrow `MovoWallpaperSPI` boundar
 
 Ad-hoc signing is the intended local path. The nested extension must be signed before the host app, installed in `/Applications` or `~/Applications`, and registered with ExtensionKit when necessary. No paid Developer ID or notarization is assumed.
 
+The verified local path is `Scripts/install-local.sh`, installing to
+`~/Applications/Movo.app`. PluginKit only enumerated the extension after its
+`com.apple.security.app-sandbox` entitlement was preserved during the explicit
+ad-hoc re-sign. The validated order is extension frameworks, extension with
+entitlements, host frameworks, then host. On macOS 26.3 (25D125), PluginKit
+reported `+ dev.rarebinary.Movo.wallpaper-extension` when enabled and `-` when
+disabled; repair, removal, and clean reinstallation were also exercised without
+changing wallpaper selection.
+
+The extension package type is `XPC!`, matching the registered third-party
+wallpaper-extension shape observed on this machine. The compatibility framework
+loads `WallpaperExtensionKit` only after an exact OS/build/architecture check.
+Its connection boundary remains intentionally fail-closed until the renderer
+request objects and replies are exercised by the Stage 3 harness.
+
 ### Safety contract
 
 Wallpaper-store changes must be transactional: preserve the original bytes, write an operation backup, atomically replace, validate the selected provider, restart `WallpaperAgent`, confirm rendering, and roll back on failure. Movo must not report desktop or lock-screen success until this lifecycle is exercised on the installed macOS build.
+
+The live same-byte recovery probe established that macOS can attach the protected
+`com.apple.provenance` xattr during atomic replacement even when the store bytes,
+mode, owner, group, mtime, and wallpaper-owned quarantine value remain identical.
+Recovery evidence therefore records exact xattr equality separately while Gate 0
+compares all stable xattrs and explicitly classifies only this system marker as
+volatile. No provider selection is attempted by this probe.
 
 ## Local media pipeline
 
