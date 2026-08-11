@@ -8,7 +8,8 @@ Whenever conversation context is compacted, lost, or uncertain, read every proje
 2. `DESIGN.md`
 3. `SHAPE-BRIEF.md`
 4. `README.md`
-5. this `AGENTS.md`
+5. `TECHNICAL-NOTES.md`
+6. this `AGENTS.md`
 
 Treat those files as the durable source of truth. Newer explicit user instructions override conflicting older text and should be written back into the appropriate Markdown file.
 

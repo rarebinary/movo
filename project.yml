@@ -1,0 +1,74 @@
+name: Movo
+options:
+  bundleIdPrefix: dev.rarebinary
+  deploymentTarget:
+    macOS: "26.0"
+  developmentLanguage: en
+  xcodeVersion: "26.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    ARCHS: arm64
+    ONLY_ACTIVE_ARCH: false
+    SWIFT_VERSION: 6.0
+    MACOSX_DEPLOYMENT_TARGET: 26.0
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_HARDENED_RUNTIME: false
+    DEAD_CODE_STRIPPING: true
+    CLANG_ENABLE_MODULES: true
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
+targets:
+  MovoCore:
+    type: framework
+    platform: macOS
+    sources:
+      - path: MovoCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.rarebinary.MovoCore
+        DEFINES_MODULE: true
+        SKIP_INSTALL: true
+        GENERATE_INFOPLIST_FILE: true
+  Movo:
+    type: application
+    platform: macOS
+    info:
+      path: MovoApp/Info.plist
+      properties:
+        CFBundleDisplayName: Movo
+        LSApplicationCategoryType: public.app-category.utilities
+        LSMinimumSystemVersion: "26.0"
+        NSHumanReadableCopyright: Copyright © 2026 Yann. All rights reserved.
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Movie
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - public.movie
+    sources:
+      - path: MovoApp
+    dependencies:
+      - target: MovoCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.rarebinary.Movo
+        PRODUCT_NAME: Movo
+        GENERATE_INFOPLIST_FILE: true
+        ENABLE_APP_SANDBOX: false
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/../Frameworks"
+    scheme:
+      testTargets:
+        - MovoCoreTests
+  MovoCoreTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: MovoCoreTests
+    dependencies:
+      - target: MovoCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.rarebinary.MovoCoreTests
+        GENERATE_INFOPLIST_FILE: true
