@@ -19,4 +19,19 @@ fi
 bash -n "$capture_script"
 "$capture_script" verify-noop-recovery --work-dir "$work_dir/noop"
 
+set +e
+"$capture_script" verify-live-noop-recovery \
+  --output-dir "$work_dir/live-must-refuse" \
+  --i-confirm-disposable-movo-account >/dev/null 2>&1
+live_status=$?
+set -e
+[ "$live_status" -ne 0 ] || {
+  printf 'verify-wallpaper-lab.sh: live Gate 0 unexpectedly ran outside the disposable account\n' >&2
+  exit 1
+}
+[ ! -e "$work_dir/live-must-refuse" ] || {
+  printf 'verify-wallpaper-lab.sh: refused live Gate 0 created output\n' >&2
+  exit 1
+}
+
 printf 'Wallpaper lab validation passed: %s\n' "$work_dir"

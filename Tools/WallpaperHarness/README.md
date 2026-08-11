@@ -79,3 +79,30 @@ wallpaper mutation work:
 
 Until those live disposable-account checks pass, later Set Wallpaper stages must
 remain fail-closed.
+
+## Disposable-account Gate 0 procedure
+
+After signing into the dedicated `movo-wallpaper-lab` local account, run:
+
+```sh
+Scripts/capture-wallpaper-state.sh verify-live-noop-recovery \
+  --output-dir /Users/movo-wallpaper-lab/Desktop/movo-gate0 \
+  --i-confirm-disposable-movo-account
+```
+
+This command is hard-coded to refuse every other account and unexpected home
+directory. It captures the live store, records an interruption before provider
+selection, restores the same bytes, and proves checksum, mode, owner, group, and
+mtime equality. It never attempts a provider change. The generated result stays
+in `awaiting-visible-confirmation` until the operator verifies that the same
+wallpaper remains visible and runs:
+
+```sh
+Scripts/capture-wallpaper-state.sh confirm-live-noop-recovery \
+  --bundle /Users/movo-wallpaper-lab/Desktop/movo-gate0 \
+  --i-confirm-visible-wallpaper-unchanged
+```
+
+Only the resulting `status: passed` report closes Gate 0. Screenshots and raw
+recovery bundles remain local and must not be committed because they may contain
+user- or machine-specific state.
