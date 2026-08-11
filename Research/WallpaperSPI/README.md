@@ -68,7 +68,11 @@ research-gate failure, not a best-effort compatibility signal.
 
 1. The private framework image lives in the dyld shared cache. The filesystem
    framework path is only a symlink, and no command-line shared-cache extractor
-   is installed. Its implementation has therefore not been analyzed.
+   is installed. Its implementation has therefore not been analyzed. A G002
+   follow-up also observed `WallpaperExtensionKit` in dyld runtime mappings, but
+   IDA MCP database entries for the installed binary and an ephemeral arm64 slice
+   had empty `session_id` values, so no additional targeted analysis could be
+   performed through MCP.
 2. No controlled before/after store capture has been made for linked versus
    separated desktop/lock-screen assignments or for a second physical display.
 3. Available lifecycle logs demonstrated Apple's wallpaper runtime but did not
@@ -76,3 +80,28 @@ research-gate failure, not a best-effort compatibility signal.
 4. Private request object fields, allowed-class indexes, and snapshot wire
    layouts remain partly opaque. Runtime use must not be implemented from names
    alone.
+
+## G002 safety checkpoint
+
+**Observed:** the runtime framework image appears loaded, the SDK still exposes
+only a `.tbd` stub, and the local machine had no installed Apple dyld
+shared-cache extractor available to produce a reviewed standalone framework
+Mach-O.
+
+**Observed:** IDA MCP listed active workers for the installed Wallspace extension
+binary and an ephemeral arm64 slice, but both worker records had empty
+`session_id` values. Analysis calls therefore had no valid database target.
+
+**Inferred:** G002 is blocked on research plumbing, not on an implementation
+decision. The compatibility layer must remain fail-closed.
+
+**Unknown:** the allowed classes, request/reply object layout, snapshot payload,
+and provider-selection contract needed to mutate desktop or lock-screen state
+safely.
+
+No further IDA claims were made from this state. No wallpaper store mutation,
+provider registration, service restart, or Wallspace installation change was
+performed. The smallest next actions are to repair/update the IDA MCP session
+IDs or use a reviewed dyld shared-cache extraction path, then resolve the
+allowed-class, request, reply, and snapshot contracts before implementing
+activation.

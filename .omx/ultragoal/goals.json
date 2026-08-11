@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "createdAt": "2026-08-11T16:15:09.264Z",
+  "updatedAt": "2026-08-11T16:43:09.508Z",
+  "briefPath": ".omx/ultragoal/brief.md",
+  "goalsPath": ".omx/ultragoal/goals.json",
+  "ledgerPath": ".omx/ultragoal/ledger.jsonl",
+  "codexGoalMode": "aggregate",
+  "goals": [
+    {
+      "id": "G001-safe-laboratory",
+      "title": "Safe laboratory",
+      "objective": "Implement Stage 0 and prove Gate 0 without changing the production wallpaper.",
+      "status": "failed",
+      "attempt": 1,
+      "createdAt": "2026-08-11T16:15:09.264Z",
+      "updatedAt": "2026-08-11T16:27:37.941Z",
+      "startedAt": "2026-08-11T16:15:19.047Z",
+      "failedAt": "2026-08-11T16:27:37.941Z",
+      "failureReason": "Fixture recovery verified with exact SHA-256/mode/mtime/xattr restoration; tampered bundle rejected without target change; live store read-only capture byte-identical. Full Gate 0 blocked because no disposable macOS user exists and creating one requires interactive administrator authentication (sudo_noninteractive=1). No wallpaper mutation performed."
+    },
+    {
+      "id": "G002-compatibility-contract",
+      "title": "Compatibility contract",
+      "objective": "Implement Stage 1 and close Gate 1 with sanitized evidence.",
+      "status": "failed",
+      "attempt": 1,
+      "createdAt": "2026-08-11T16:15:09.264Z",
+      "updatedAt": "2026-08-11T16:43:09.508Z",
+      "startedAt": "2026-08-11T16:27:38.239Z",
+      "failedAt": "2026-08-11T16:43:09.508Z",
+      "failureReason": "Gate 1 remains fail-closed: the installed Wallspace extension and com.apple.wallpaper registration were observed, but WallpaperExtensionKit exists only in dyld runtime mappings and an SDK .tbd; no reviewed shared-cache extractor is installed, and both IDA MCP workers (installed binary and fresh arm64 slice) expose empty session IDs. Allowed XPC classes, request/reply schemas, snapshot/provider-selection contracts, and failure semantics therefore remain unknown. No wallpaper, extension registration, store, or UI state was mutated."
+    },
+    {
+      "id": "G003-extension-boundary",
+      "title": "Extension boundary",
+      "objective": "Implement Stage 2 and prove Gate 2.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-08-11T16:15:09.264Z",
+      "updatedAt": "2026-08-11T16:15:09.264Z"
+    },
+    {
+      "id": "G004-renderer-lifecycle",
+      "title": "Renderer lifecycle",
+      "objective": "Implement Stage 3 and prove Gate 3.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-08-11T16:15:09.264Z",
+      "updatedAt": "2026-08-11T16:15:09.264Z"
+    },
+    {
+      "id": "G005-transactional-activation",
+      "title": "Transactional activation",
+      "objective": "Implement Stage 4 only on the disposable account and prove Gate 4.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-08-11T16:15:09.264Z",
+      "updatedAt": "2026-08-11T16:15:09.264Z"
+    },
+    {
+      "id": "G006-product-coordinator",
+      "title": "Product coordinator",
+      "objective": "Implement Stage 5 and prove Gate 5.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-08-11T16:15:09.264Z",
+      "updatedAt": "2026-08-11T16:15:09.264Z"
+    },
+    {
+      "id": "G007-system-release-gate",
+      "title": "System release gate",
+      "objective": "Implement Stage 6 and pass the release gate, including final cleanup and review.",
+      "status": "pending",
+      "attempt": 0,
+      "createdAt": "2026-08-11T16:15:09.264Z",
+      "updatedAt": "2026-08-11T16:15:09.264Z"
+    }
+  ],
+  "codexObjective": "Complete the durable ultragoal plan in .omx/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .omx/ultragoal/ledger.jsonl as the audit trail."
+}
