@@ -38,8 +38,8 @@ struct SettingsView: View {
                     }
 
                     settingsSection("Library") {
-                        settingsRow(icon: "internaldrive", title: "Managed Storage", detail: "No videos imported yet") {
-                            Button("Reveal") {}
+                        settingsRow(icon: "internaldrive", title: "Managed Storage", detail: model.storageSummary) {
+                            Button("Reveal") { model.revealLibrary() }
                                 .buttonStyle(.bordered)
                         }
                         settingsRow(icon: "clock.arrow.circlepath", title: "Automatic Cleanup", detail: "Manual") {

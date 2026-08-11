@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 struct WorkspaceView: View {
     @Bindable var model: WorkspaceModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.undoManager) private var undoManager
 
     var body: some View {
         GeometryReader { proxy in
@@ -184,6 +185,10 @@ struct WorkspaceView: View {
             }
 
             OpticalIconButton(systemImage: "info.circle", help: "Wallpaper Information") {}
+
+            OpticalIconButton(systemImage: "trash", help: "Move Wallpaper to Trash") {
+                model.deleteSelection(undoManager: undoManager)
+            }
 
             ChromePrimaryButton(title: "Set Wallpaper", systemImage: nil, action: model.requestSetWallpaper, isDisabled: model.selection == nil)
         }

@@ -23,11 +23,11 @@ final class WorkspaceModel {
     var inspectorIsPresented = true
     var searchRequested = false
     var searchText = ""
-    var fitMode: FitMode = .fill
-    var playbackSpeed = 1.0
-    var loopStart = 0.0
-    var loopEnd = 1.0
-    var focalPoint = UnitPoint.center
+    var fitMode: FitMode = .fill { didSet { settingsDidChange() } }
+    var playbackSpeed = 1.0 { didSet { settingsDidChange() } }
+    var loopStart = 0.0 { didSet { settingsDidChange() } }
+    var loopEnd = 1.0 { didSet { settingsDidChange() } }
+    var focalPoint = UnitPoint.center { didSet { settingsDidChange() } }
     var linkDesktopAndLockScreen = true
     var applyToAllDisplays = false
     var lastNotice: WorkspaceNotice?
@@ -36,6 +36,8 @@ final class WorkspaceModel {
     private let libraryLocation: ManagedLibraryLocation
     private let libraryStore: ManagedLibraryStore
     private let importExecutor = VideoImportExecutor()
+    private var settingsSaveTask: Task<Void, Never>?
+    private var isRestoringSettings = false
 
     init() {
         let applicationSupport = FileManager.default.urls(
@@ -75,6 +77,7 @@ final class WorkspaceModel {
     func select(_ wallpaper: WallpaperItem) {
         selectedID = wallpaper.id
         previewIsPlaying = true
+        restoreSettings(from: wallpaper)
     }
 
     func togglePreviewPlayback() {
@@ -96,6 +99,26 @@ final class WorkspaceModel {
 
     func managedURL(for wallpaper: WallpaperItem) -> URL {
         libraryLocation.mediaURL(for: wallpaper)
+    }
+
+    var storageSummary: String {
+        guard !wallpapers.isEmpty else { return "No videos imported yet" }
+        let bytes = wallpapers.reduce(Int64.zero) { $0 + $1.media.fileSize }
+        return ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)
+            + " across \(wallpapers.count) "
+            + (wallpapers.count == 1 ? "video" : "videos")
+    }
+
+    func revealLibrary() {
+        do {
+            try FileManager.default.createDirectory(
+                at: libraryLocation.mediaDirectoryURL,
+                withIntermediateDirectories: true
+            )
+            NSWorkspace.shared.activateFileViewerSelecting([libraryLocation.mediaDirectoryURL])
+        } catch {
+            lastNotice = WorkspaceNotice(message: error.localizedDescription, kind: .warning)
+        }
     }
 
     func presentImporter() {
@@ -130,7 +153,7 @@ final class WorkspaceModel {
                             maximumFramesPerSecond: 60
                         )
                     )
-                    lastNotice = WorkspaceNotice(
+                    self.lastNotice = WorkspaceNotice(
                         message: prepared.plan.requiresOptimization
                             ? "Optimizing \(prepared.title) for Apple Silicon…"
                             : "Adding \(prepared.title) to your managed library…",
@@ -140,9 +163,10 @@ final class WorkspaceModel {
                     let manifest = try await libraryStore.upsert(item)
                     wallpapers = manifest.items.sorted { $0.importedAt > $1.importedAt }
                     selectedID = item.id
+                    restoreSettings(from: item)
                     importedCount += 1
                 } catch {
-                    lastNotice = WorkspaceNotice(
+                    self.lastNotice = WorkspaceNotice(
                         message: "Could not import \(url.lastPathComponent): \(error.localizedDescription)",
                         kind: .warning
                     )
@@ -167,16 +191,124 @@ final class WorkspaceModel {
         )
     }
 
+    func deleteSelection(undoManager: UndoManager?) {
+        guard let selectedID,
+              let item = wallpapers.first(where: { $0.id == selectedID }) else { return }
+        let originalURL = managedURL(for: item)
+
+        NSWorkspace.shared.recycle([originalURL]) { [weak self] trashedURLs, error in
+            Task { @MainActor in
+                guard let self else { return }
+                if let error {
+                    self.lastNotice = WorkspaceNotice(
+                        message: "Could not move \(item.title) to Trash: \(error.localizedDescription)",
+                        kind: .warning
+                    )
+                    return
+                }
+                guard let trashedURL = trashedURLs[originalURL] else {
+                    self.lastNotice = WorkspaceNotice(message: "Could not confirm the Trash location.", kind: .warning)
+                    return
+                }
+
+                do {
+                    let manifest = try await self.libraryStore.remove(id: item.id)
+                    self.wallpapers.removeAll { $0.id == item.id }
+                    self.selectedID = self.wallpapers.first?.id
+                    if let selection = self.selection { self.restoreSettings(from: selection) }
+                    self.lastNotice = WorkspaceNotice(message: "Moved \(item.title) to Trash. Press ⌘Z to undo.", kind: .neutral)
+
+                    if manifest != nil {
+                        undoManager?.registerUndo(withTarget: self) { model in
+                            model.restoreDeletedItem(item, from: trashedURL, to: originalURL)
+                        }
+                        undoManager?.setActionName("Delete Wallpaper")
+                    }
+                } catch {
+                    try? FileManager.default.moveItem(at: trashedURL, to: originalURL)
+                    self.lastNotice = WorkspaceNotice(message: error.localizedDescription, kind: .warning)
+                }
+            }
+        }
+    }
+
+    private func restoreDeletedItem(_ item: WallpaperItem, from trashedURL: URL, to originalURL: URL) {
+        Task {
+            do {
+                try FileManager.default.createDirectory(
+                    at: originalURL.deletingLastPathComponent(),
+                    withIntermediateDirectories: true
+                )
+                try FileManager.default.moveItem(at: trashedURL, to: originalURL)
+                let manifest = try await libraryStore.upsert(item)
+                wallpapers = manifest.items.sorted { $0.importedAt > $1.importedAt }
+                selectedID = item.id
+                restoreSettings(from: item)
+                lastNotice = WorkspaceNotice(message: "Restored \(item.title).", kind: .success)
+            } catch {
+                lastNotice = WorkspaceNotice(
+                    message: "Could not restore \(item.title): \(error.localizedDescription)",
+                    kind: .warning
+                )
+            }
+        }
+    }
+
     private func loadLibrary() async {
         do {
             let manifest = try await libraryStore.load()
             wallpapers = manifest.items.sorted { $0.importedAt > $1.importedAt }
             selectedID = wallpapers.first?.id
+            if let selection { restoreSettings(from: selection) }
         } catch {
             lastNotice = WorkspaceNotice(
                 message: "Movo could not open its managed library: \(error.localizedDescription)",
                 kind: .warning
             )
+        }
+    }
+
+    private func restoreSettings(from wallpaper: WallpaperItem) {
+        isRestoringSettings = true
+        fitMode = wallpaper.settings.framing == .fill ? .fill : .fit
+        playbackSpeed = wallpaper.settings.playbackRate
+        focalPoint = UnitPoint(
+            x: wallpaper.settings.focalPoint.x,
+            y: wallpaper.settings.focalPoint.y
+        )
+        if let range = wallpaper.settings.loopRange, wallpaper.media.duration > 0 {
+            loopStart = max(0, min(1, range.start / wallpaper.media.duration))
+            loopEnd = max(loopStart, min(1, range.end / wallpaper.media.duration))
+        } else {
+            loopStart = 0
+            loopEnd = 1
+        }
+        isRestoringSettings = false
+    }
+
+    private func settingsDidChange() {
+        guard !isRestoringSettings,
+              let selectedID,
+              let index = wallpapers.firstIndex(where: { $0.id == selectedID }) else { return }
+
+        let duration = wallpapers[index].media.duration
+        wallpapers[index].settings = WallpaperSettings(
+            framing: fitMode == .fill ? .fill : .fit,
+            focalPoint: .init(x: focalPoint.x, y: focalPoint.y),
+            loopRange: .init(start: loopStart * duration, end: loopEnd * duration),
+            playbackRate: playbackSpeed
+        )
+        let updated = wallpapers[index]
+
+        settingsSaveTask?.cancel()
+        settingsSaveTask = Task {
+            try? await Task.sleep(for: .milliseconds(250))
+            guard !Task.isCancelled else { return }
+            do {
+                _ = try await libraryStore.upsert(updated)
+            } catch {
+                lastNotice = WorkspaceNotice(message: error.localizedDescription, kind: .warning)
+            }
         }
     }
 }

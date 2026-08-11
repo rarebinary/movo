@@ -82,6 +82,14 @@ private struct MovoCommands: Commands {
                 model.searchRequested.toggle()
             }
             .keyboardShortcut("f", modifiers: .command)
+
+            Divider()
+
+            Button("Move Wallpaper to Trash") {
+                model.deleteSelection(undoManager: NSApp.keyWindow?.undoManager)
+            }
+            .keyboardShortcut(.delete, modifiers: .command)
+            .disabled(model.selection == nil)
         }
     }
 }
