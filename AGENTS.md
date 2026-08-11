@@ -9,9 +9,13 @@ Whenever conversation context is compacted, lost, or uncertain, read every proje
 3. `SHAPE-BRIEF.md`
 4. `README.md`
 5. `TECHNICAL-NOTES.md`
-6. this `AGENTS.md`
+6. `ROADMAP.md`
+7. `References/Wallspace/README.md`
+8. this `AGENTS.md`
 
 Treat those files as the durable source of truth. Newer explicit user instructions override conflicting older text and should be written back into the appropriate Markdown file.
+
+The archived Wallspace screenshots under `References/Wallspace/` are visual evidence. Read their index before any Movo UI redesign. They authorize studying interaction grammar, geometry, hierarchy, and finish; they do not authorize copying Wallspace assets, branding, content, proprietary code, or exact screen structure.
 
 ## Product constraints
 
