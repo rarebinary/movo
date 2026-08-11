@@ -82,6 +82,21 @@ remain fail-closed.
 
 ## Disposable-account Gate 0 procedure
 
+On a Mac that cannot keep two graphical sessions open, use the interactive
+launcher:
+
+1. log out of the primary account completely;
+2. sign in to the disposable `movo-wallpaper-lab` account;
+3. double-click `Scripts/run-wallpaper-gate0.command` from the shared Movo
+   checkout;
+4. inspect the visible wallpaper and type `UNCHANGED` only when it is exactly
+   unchanged;
+5. log out of the lab account and return to the primary account.
+
+The launcher stores its raw evidence in `/Users/Shared/movo-gate0`. It is only
+an interactive wrapper around the two fail-closed commands below and still
+refuses to run outside the disposable account.
+
 After signing into the dedicated `movo-wallpaper-lab` local account, run:
 
 ```sh
