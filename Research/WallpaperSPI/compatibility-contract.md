@@ -40,8 +40,8 @@ restart, or wallpaper-store mutation.
 
 ### Unknown — production blockers
 
-- Secure-coding keys, optionality, validation rules, and archive aliases for the
-  private XPC model classes.
+- Payload keys, optionality, validation rules, and archive aliases inside the
+  private `NSData` envelopes used by the XPC model classes.
 - Reply error conventions, exactly-once requirements, timeout values, and
   ordering guarantees between acquire and update.
 - Whether a wallpaper ID is scoped by display, Space, destination, connection,
@@ -80,6 +80,27 @@ The installed SDK exposes a `.tbd` but no importable Swift module for this
 private framework. The exported names prove a higher-level framework contract
 exists; they do not yet prove that an independently declared or dynamically
 resolved client is ABI-safe.
+
+## Runtime XPC wrapper surface
+
+### Observed
+
+- The cache-resident framework can be loaded into an isolated local process on
+  the fingerprinted build without opening an XPC connection.
+- Six private wrapper classes expose `initWithCoder:` and `encodeWithCoder:`;
+  their instance sizes, ivars, method encodings, requested decoder classes, and
+  top-level keys are recorded in
+  [`notes/runtime-introspection.md`](notes/runtime-introspection.md).
+- Creation decoding requests security-scoped URL wrappers for `files` and
+  `cacheDirectory`, followed by an `NSData` value under `codable`.
+- Update, remote-context, choice-request, and choice-result wrappers request an
+  `NSData` value under a semantic type key.
+
+### Unknown — Gate 1 blocker
+
+- The schema and invariants of those opaque data envelopes.
+- The real snapshot wrapper layout.
+- Whether independently constructed archives pass the system service's checks.
 
 ## Provider selection
 

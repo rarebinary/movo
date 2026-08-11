@@ -59,12 +59,17 @@ research-gate failure, not a best-effort compatibility signal.
   evidence for the host activation path and its remaining runtime gap.
 - [`notes/ida-session.md`](notes/ida-session.md) — reproducible IDA evidence and
   read-only framework inspection route.
+- [`notes/runtime-introspection.md`](notes/runtime-introspection.md) —
+  build-gated Objective-C metadata and secure-decoding entry keys recovered
+  without an XPC connection.
 - [`compatibility-contract.md`](compatibility-contract.md) — build-fingerprinted
   Observed/Inferred/Unknown boundary for future implementation.
 - [`fixtures/index-schema-sanitized.plist`](fixtures/index-schema-sanitized.plist)
   — synthetic, non-user fixture illustrating only the observed schema shape.
 - [`scripts/collect-readonly.sh`](scripts/collect-readonly.sh) — evidence commands
   that print to standard output.
+- [`scripts/introspect-runtime-contract.sh`](scripts/introspect-runtime-contract.sh)
+  — compiles and runs the ephemeral, fail-closed runtime inspector.
 - [`scripts/sanitize_store.py`](scripts/sanitize_store.py) — deterministic
   redaction of a plist to JSON on standard output.
 
@@ -77,9 +82,10 @@ research-gate failure, not a best-effort compatibility signal.
    separated desktop/lock-screen assignments or for a second physical display.
 3. Available lifecycle logs demonstrated Apple's wallpaper runtime but did not
    prove that the Wallspace extension was the active provider during capture.
-4. The allowed-class superset and indexes are now observed, but private
-   secure-coding keys, archive invariants, timeout/error semantics, and provider
-   selection reproduction remain unresolved.
+4. The allowed-class superset, indexes, wrapper sizes, and top-level decoder
+   keys/classes are now observed. Private `NSData` payloads, archive invariants,
+   timeout/error semantics, and provider-selection reproduction remain
+   unresolved.
 
 ## G002 safety checkpoint
 
@@ -99,8 +105,9 @@ runtime restart services.
 binary. G002 is now blocked on runtime reproduction and model semantics rather
 than IDA plumbing.
 
-**Unknown:** private secure-coding fields, reply/error/time-out rules, callable
-framework ABI, and a twice-reproduced provider-selection transaction.
+**Unknown:** private payload fields inside the observed `NSData` envelopes,
+reply/error/time-out rules, callable framework ABI, and a twice-reproduced
+provider-selection transaction.
 
 No wallpaper store mutation, provider registration, service restart, or
 Wallspace installation change was performed. The next safe action is a
