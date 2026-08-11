@@ -4,6 +4,13 @@
 
 Approved planning baseline, 2026-08-11. This file is the canonical cross-session roadmap. After context compaction, read it together with the root product/design documents and `References/Wallspace/README.md` before editing.
 
+### Execution checkpoint — 2026-08-11
+
+- Phase 0 visual evidence is frozen under `References/Wallspace/` and `References/MovoBaseline/`; SPI-free application models and nine focused tests are in place.
+- Phases 1–3 have a verified first production pass: full-bleed window canvas, unified optical controls, overlaid instrument row, integrated filmstrip, floating action dock, and anchored target/display popover. Standard and minimum-size captures passed the visual gate; accessibility variants remain scheduled.
+- Phase 5 read-only research artifacts now live under `Research/WallpaperSPI/`. The extension fingerprint, class/selector map, sanitized lifecycle/store notes, and evidence scripts are recorded. Exact private request layouts and controlled store diffs remain blocking evidence before implementation can safely mutate the wallpaper provider.
+- Phases 4 and 6–9 remain active. In particular, **Set Wallpaper** still reports the honest unsupported-integration notice until the extension lifecycle and transactional rollback path are proven on this macOS build.
+
 The detailed OMX plan entry is `.omx/plans/movo-wallspace-polish-and-wallpaper-spi.md` and points back here.
 
 ## Outcome

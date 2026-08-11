@@ -1,4 +1,5 @@
 import AVFoundation
+import MovoCore
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -10,30 +11,32 @@ struct WorkspaceView: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .topTrailing) {
-                MovoTheme.voidBlack.ignoresSafeArea()
+                MovoTheme.windowCanvas.ignoresSafeArea()
 
-                VStack(spacing: 0) {
-                    topBar
-                    content(proxy: proxy)
-                }
+                content(proxy: proxy)
+
+                topBar(proxy: proxy)
+                    .offset(y: -proxy.safeAreaInsets.top)
+                    .zIndex(3)
 
                 if model.inspectorIsPresented, model.selection != nil {
                     InspectorView(model: model)
                         .frame(width: 300)
-                        .padding(.top, 82)
-                        .padding(.trailing, 22)
+                        .padding(.top, 92)
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 154)
                         .transition(reduceMotion ? .opacity : .move(edge: .trailing).combined(with: .opacity))
-                        .zIndex(3)
+                        .zIndex(4)
                 }
 
                 if let notice = model.lastNotice {
                     NoticeView(notice: notice) {
                         model.lastNotice = nil
                     }
-                    .padding(.top, 82)
+                    .padding(.top, 88)
                     .frame(maxWidth: .infinity, alignment: .top)
                     .transition(.opacity)
-                    .zIndex(4)
+                    .zIndex(5)
                 }
             }
             .animation(.smooth(duration: reduceMotion ? 0.12 : 0.28), value: model.inspectorIsPresented)
@@ -44,38 +47,24 @@ struct WorkspaceView: View {
         }
     }
 
-    private var topBar: some View {
+    private func topBar(proxy: GeometryProxy) -> some View {
         HStack(spacing: 12) {
             HStack(spacing: 11) {
                 MovoMark(size: 30)
-                Text("Movo")
+                if proxy.size.width >= 1060 {
+                    Text("Movo")
                     .font(.system(size: 24, weight: .semibold, design: .default))
                     .tracking(-0.4)
+                }
             }
             .accessibilityElement(children: .combine)
             .accessibilityLabel("Movo")
 
-            Spacer(minLength: 24)
+            Spacer(minLength: 18)
 
-            Menu {
-                Button("Built-in Display") {}
-            } label: {
-                HStack(spacing: 9) {
-                    Image(systemName: "display")
-                    Text("Built-in Display")
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 10, weight: .bold))
-                        .foregroundStyle(MovoTheme.secondaryText)
-                }
-                .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(MovoTheme.primaryText)
-                .padding(.horizontal, 14)
-                .frame(height: 40)
-                .background(MovoTheme.projectionBlack, in: RoundedRectangle(cornerRadius: 11, style: .continuous))
-                .movoHairline(RoundedRectangle(cornerRadius: 11, style: .continuous), opacity: 0.75)
+            OpticalLabelButton(title: proxy.size.width >= 1120 ? "Built-in Display" : "Display", systemImage: "display") {
+                model.inspectorIsPresented = true
             }
-            .menuStyle(.borderlessButton)
-            .fixedSize()
 
             if model.searchRequested {
                 HStack(spacing: 8) {
@@ -94,9 +83,9 @@ struct WorkspaceView: View {
                     .buttonStyle(.plain)
                 }
                 .padding(.horizontal, 12)
-                .frame(height: 40)
-                .background(MovoTheme.projectionBlack, in: RoundedRectangle(cornerRadius: 11, style: .continuous))
-                .movoHairline(RoundedRectangle(cornerRadius: 11, style: .continuous), opacity: 0.75)
+                .frame(height: OpticalControlSize.regular)
+                .background(MovoTheme.opticalWell, in: Capsule())
+                .movoHairline(Capsule(), opacity: 0.75)
                 .transition(.opacity.combined(with: .scale(scale: 0.96, anchor: .trailing)))
             } else {
                 OpticalIconButton(systemImage: "magnifyingglass", help: "Search Library") {
@@ -116,17 +105,16 @@ struct WorkspaceView: View {
                 Image(systemName: "gearshape")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(MovoTheme.primaryText)
-                    .frame(width: 40, height: 40)
-                    .background(MovoTheme.graphiteSheen, in: RoundedRectangle(cornerRadius: 11, style: .continuous))
-                    .movoHairline(RoundedRectangle(cornerRadius: 11, style: .continuous), opacity: 0.75)
+                    .frame(width: OpticalControlSize.regular, height: OpticalControlSize.regular)
+                    .background(MovoTheme.graphiteSheen, in: Circle())
+                    .movoHairline(Circle(), opacity: 0.75)
             }
             .buttonStyle(.plain)
             .help("Settings")
         }
-        .padding(.leading, 28)
+        .padding(.leading, 76)
         .padding(.trailing, 24)
-        .padding(.top, 34)
-        .padding(.bottom, 16)
+        .padding(.top, 22)
     }
 
     @ViewBuilder
@@ -136,31 +124,31 @@ struct WorkspaceView: View {
                 importAction: model.presentImporter,
                 importURLs: model.importVideos
             )
-                .padding(.horizontal, 28)
-                .padding(.bottom, 28)
+                .padding(.horizontal, 14)
+                .padding(.top, 14)
+                .padding(.bottom, 14)
         } else {
-            VStack(spacing: 0) {
+            ZStack(alignment: .bottom) {
                 PreviewStage(model: model)
-                    .padding(.horizontal, 28)
 
-                Filmstrip(model: model)
-                    .padding(.top, 12)
-                    .padding(.horizontal, 28)
-
-                bottomBar
-                    .padding(.horizontal, 32)
-                    .padding(.vertical, 18)
+                VStack(spacing: 10) {
+                    Spacer(minLength: 190)
+                    Filmstrip(model: model)
+                        .padding(.horizontal, 24)
+                    actionDock
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 22)
+                }
             }
         }
     }
 
-    private var bottomBar: some View {
+    private var actionDock: some View {
         HStack(alignment: .center, spacing: 16) {
             if let selection = model.selection {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(selection.title)
-                        .font(.system(size: 28, weight: .semibold))
-                        .tracking(-0.4)
+                        .font(.system(size: 15, weight: .semibold))
                         .lineLimit(1)
                     HStack(spacing: 8) {
                         Text("\(selection.media.dimensions.width)×\(selection.media.dimensions.height)")
@@ -169,12 +157,20 @@ struct WorkspaceView: View {
                         Text("•")
                         Text("Managed")
                     }
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(MovoTheme.secondaryText)
                 }
+                .frame(maxWidth: 250, alignment: .leading)
             }
 
             Spacer()
+
+            OpticalLabelButton(title: model.wallpaperTargetTitle, systemImage: targetIcon) {
+                model.targetPickerIsPresented = true
+            }
+            .popover(isPresented: $model.targetPickerIsPresented, arrowEdge: .bottom) {
+                TargetPopover(model: model)
+            }
 
             OpticalIconButton(
                 systemImage: model.selection?.isFavorite == true ? "heart.fill" : "heart",
@@ -192,7 +188,101 @@ struct WorkspaceView: View {
 
             ChromePrimaryButton(title: "Set Wallpaper", systemImage: nil, action: model.requestSetWallpaper, isDisabled: model.selection == nil)
         }
-        .frame(minHeight: 64)
+        .padding(.leading, 18)
+        .padding(.trailing, 10)
+        .frame(maxWidth: 820, minHeight: 62)
+        .movoFloatingSurface(Capsule())
+        .frame(maxWidth: .infinity)
+    }
+
+    private var targetIcon: String {
+        switch model.wallpaperTarget {
+        case .both: "rectangle.on.rectangle"
+        case .desktop: "display"
+        case .lockScreen: "lock"
+        }
+    }
+}
+
+private struct TargetPopover: View {
+    @Bindable var model: WorkspaceModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Apply Wallpaper")
+                    .font(.system(size: 15, weight: .semibold))
+                Text("Choose where this video should appear.")
+                    .font(.system(size: 11))
+                    .foregroundStyle(MovoTheme.secondaryText)
+            }
+
+            HStack(spacing: 4) {
+                ForEach(WallpaperTarget.allCases, id: \.self) { target in
+                    Button {
+                        model.wallpaperTarget = target
+                        model.linkDesktopAndLockScreen = target == .both
+                    } label: {
+                        Text(label(for: target))
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(model.wallpaperTarget == target ? MovoTheme.voidBlack : MovoTheme.secondaryText)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 32)
+                            .background(
+                                model.wallpaperTarget == target
+                                    ? AnyShapeStyle(MovoTheme.chrome)
+                                    : AnyShapeStyle(Color.clear),
+                                in: Capsule()
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(4)
+            .background(MovoTheme.projectionBlack, in: Capsule())
+            .movoHairline(Capsule(), opacity: 0.72)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("DISPLAY")
+                    .font(.system(size: 10, weight: .semibold))
+                    .tracking(0.8)
+                    .foregroundStyle(MovoTheme.tertiaryText)
+
+                HStack(spacing: 12) {
+                    Image(systemName: "display")
+                        .font(.system(size: 17, weight: .medium))
+                        .foregroundStyle(MovoTheme.primaryText)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Built-in Retina Display")
+                            .font(.system(size: 12, weight: .semibold))
+                        Text("Main display")
+                            .font(.system(size: 10))
+                            .foregroundStyle(MovoTheme.secondaryText)
+                    }
+                    Spacer()
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(MovoTheme.primaryText)
+                }
+                .padding(12)
+                .background(MovoTheme.graphiteSurface, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .movoHairline(RoundedRectangle(cornerRadius: 12, style: .continuous), opacity: 0.7)
+
+                Toggle("Apply to all connected displays", isOn: $model.applyToAllDisplays)
+                    .font(.system(size: 11, weight: .medium))
+            }
+        }
+        .padding(16)
+        .frame(width: 310)
+        .background(MovoTheme.windowCanvas)
+        .preferredColorScheme(.dark)
+    }
+
+    private func label(for target: WallpaperTarget) -> String {
+        switch target {
+        case .both: "Both"
+        case .desktop: "Desktop"
+        case .lockScreen: "Lock Screen"
+        }
     }
 }
 
@@ -271,11 +361,7 @@ private struct PreviewStage: View {
                 WallpaperPlaceholder(swatch: .orbit)
             }
 
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.12), .black.opacity(0.42)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            MovoTheme.stageScrim
 
             if !model.previewIsPlaying {
                 Button {
@@ -291,10 +377,9 @@ private struct PreviewStage: View {
                 .accessibilityLabel("Play Preview")
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .movoHairline(RoundedRectangle(cornerRadius: 18, style: .continuous), opacity: 0.8)
-        .aspectRatio(16 / 9, contentMode: .fit)
-        .frame(maxHeight: .infinity)
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .movoHairline(RoundedRectangle(cornerRadius: 22, style: .continuous), opacity: 0.72)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onTapGesture(count: 2) { model.togglePreviewPlayback() }
     }
 }
@@ -310,11 +395,18 @@ private struct Filmstrip: View {
                         model.select(wallpaper)
                     } label: {
                         VideoThumbnail(url: model.managedURL(for: wallpaper))
-                            .frame(width: 164, height: 92)
-                            .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
+                            .frame(width: 154, height: 86)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                             .overlay {
-                                RoundedRectangle(cornerRadius: 11, style: .continuous)
+                                RoundedRectangle(cornerRadius: 12, style: .continuous)
                                     .stroke(model.selectedID == wallpaper.id ? AnyShapeStyle(MovoTheme.chrome) : AnyShapeStyle(MovoTheme.hairline), lineWidth: model.selectedID == wallpaper.id ? 2.5 : 1)
+                            }
+                            .overlay {
+                                if model.selectedID == wallpaper.id {
+                                    RoundedRectangle(cornerRadius: 9, style: .continuous)
+                                        .stroke(Color.white.opacity(0.55), lineWidth: 1)
+                                        .padding(4)
+                                }
                             }
                     }
                     .buttonStyle(.plain)
@@ -325,7 +417,11 @@ private struct Filmstrip: View {
             .scrollTargetLayout()
         }
         .scrollIndicators(.hidden)
-        .frame(height: 96)
+        .contentMargins(.horizontal, 10, for: .scrollContent)
+        .frame(height: 100)
+        .padding(.vertical, 6)
+        .background(MovoTheme.floatingSurface.opacity(0.82), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .movoHairline(RoundedRectangle(cornerRadius: 18, style: .continuous), opacity: 0.55)
     }
 }
 

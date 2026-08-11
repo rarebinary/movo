@@ -35,6 +35,7 @@ struct SilentLoopingVideo: NSViewRepresentable {
         var player: AVQueuePlayer?
         var looper: AVPlayerLooper?
 
+        @MainActor
         func load(url: URL, into view: PlayerSurface, isPlaying: Bool) {
             self.url = url
             player?.pause()

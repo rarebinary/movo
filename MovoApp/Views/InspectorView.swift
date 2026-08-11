@@ -7,17 +7,20 @@ struct InspectorView: View {
         VStack(alignment: .leading, spacing: 0) {
             inspectorHeader
             sectionDivider
-            framingSection
-            sectionDivider
-            loopSection
-            sectionDivider
-            playbackSection
-            sectionDivider
-            displaysSection
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    framingSection
+                    sectionDivider
+                    loopSection
+                    sectionDivider
+                    playbackSection
+                }
+            }
+            .scrollIndicators(.hidden)
         }
         .padding(16)
-        .background(MovoTheme.projectionBlack.opacity(0.98), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .movoHairline(RoundedRectangle(cornerRadius: 16, style: .continuous), opacity: 0.9)
+        .background(MovoTheme.floatingSurface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .movoHairline(RoundedRectangle(cornerRadius: 18, style: .continuous), opacity: 0.9)
         .shadow(color: .black.opacity(0.48), radius: 24, y: 12)
     }
 
@@ -110,37 +113,6 @@ struct InspectorView: View {
             }
         }
         .padding(.vertical, 13)
-    }
-
-    private var displaysSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            sectionTitle("Displays")
-            displayRow(title: "Desktop", systemImage: "display", linked: model.linkDesktopAndLockScreen)
-            displayRow(title: "Lock Screen", systemImage: "lock", linked: model.linkDesktopAndLockScreen)
-
-            Toggle("Link Desktop and Lock Screen", isOn: $model.linkDesktopAndLockScreen)
-                .font(.system(size: 11, weight: .medium))
-            Toggle("Apply to All Displays", isOn: $model.applyToAllDisplays)
-                .font(.system(size: 11, weight: .medium))
-        }
-        .padding(.top, 13)
-    }
-
-    private func displayRow(title: String, systemImage: String, linked: Bool) -> some View {
-        HStack(spacing: 9) {
-            Image(systemName: systemImage)
-                .foregroundStyle(MovoTheme.secondaryText)
-                .frame(width: 18)
-            Text(title)
-                .font(.system(size: 12, weight: .medium))
-            Spacer()
-            Image(systemName: linked ? "link" : "link.badge.plus")
-                .foregroundStyle(linked ? MovoTheme.primaryText : MovoTheme.tertiaryText)
-        }
-        .padding(.horizontal, 10)
-        .frame(height: 34)
-        .background(MovoTheme.graphiteSurface, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .movoHairline(RoundedRectangle(cornerRadius: 8, style: .continuous), opacity: 0.65)
     }
 
     private func sectionTitle(_ title: String) -> some View {

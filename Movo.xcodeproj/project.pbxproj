@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		23B1548CFD7E4E8E7AAC0FE2 /* MovoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DD35B0519DAC12760EA7C2 /* MovoApp.swift */; };
 		2CF429621DEFE8FDFAC21AD8 /* VideoImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296F8B7CD504C014FBC46E44 /* VideoImportTests.swift */; };
+		3584E13CB604B32E8CB581C6 /* WallpaperApplicationModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984211BACCE24E3B84CF2758 /* WallpaperApplicationModelsTests.swift */; };
 		3970A413272C5DC9A39712FA /* WallpaperItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2509EBBD0E4A1DD3C288F6 /* WallpaperItem.swift */; };
 		39C662003B526E97C05D50A2 /* ChromeControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D397566319A3C66B4DB57 /* ChromeControls.swift */; };
 		3BD1D32C7C586EB63E76550B /* MovoCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E877C42C6831DF608C403BB /* MovoCore.framework */; };
@@ -21,6 +22,7 @@
 		65CC7F9B89300573F928CF89 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558079F91A27BC19942CE437 /* AppModel.swift */; };
 		665056DF428F44E0C6511300 /* VideoImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7743DC42ECB5DDB522306D11 /* VideoImport.swift */; };
 		A33AD131D8CEDBC8B7C97872 /* VideoInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532EF9F9772141A21A1D7B6F /* VideoInspector.swift */; };
+		B06499CCAC2D4B2244788EC3 /* WallpaperApplicationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0973EFE2C0F74049A9EFE1F /* WallpaperApplicationModels.swift */; };
 		BA3E96A151B702ED499F30C8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A5828DA7A6FD2438D2865 /* SettingsView.swift */; };
 		BD60134F9ECDC25FB73FD099 /* WorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951DCBE5040DEF3E7B9E1844 /* WorkspaceView.swift */; };
 		D27182CA2D08DC675C3D2022 /* MovoCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8E877C42C6831DF608C403BB /* MovoCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -88,6 +90,8 @@
 		8E877C42C6831DF608C403BB /* MovoCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovoCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F6D397566319A3C66B4DB57 /* ChromeControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeControls.swift; sourceTree = "<group>"; };
 		951DCBE5040DEF3E7B9E1844 /* WorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceView.swift; sourceTree = "<group>"; };
+		984211BACCE24E3B84CF2758 /* WallpaperApplicationModelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperApplicationModelsTests.swift; sourceTree = "<group>"; };
+		B0973EFE2C0F74049A9EFE1F /* WallpaperApplicationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperApplicationModels.swift; sourceTree = "<group>"; };
 		CB663C7B520685C2E5C83EAC /* VideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreview.swift; sourceTree = "<group>"; };
 		E1DD35B0519DAC12760EA7C2 /* MovoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovoApp.swift; sourceTree = "<group>"; };
 		F0D5896EE03D62B00509CCB2 /* MovoTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovoTheme.swift; sourceTree = "<group>"; };
@@ -138,6 +142,7 @@
 			children = (
 				05A05ADA4DBCF3D936B2A8A7 /* ManagedLibraryTests.swift */,
 				296F8B7CD504C014FBC46E44 /* VideoImportTests.swift */,
+				984211BACCE24E3B84CF2758 /* WallpaperApplicationModelsTests.swift */,
 			);
 			path = MovoCoreTests;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 				7743DC42ECB5DDB522306D11 /* VideoImport.swift */,
 				6B55E0D9D8A407FE0AE97121 /* VideoImportExecutor.swift */,
 				532EF9F9772141A21A1D7B6F /* VideoInspector.swift */,
+				B0973EFE2C0F74049A9EFE1F /* WallpaperApplicationModels.swift */,
 				0E2509EBBD0E4A1DD3C288F6 /* WallpaperItem.swift */,
 			);
 			path = MovoCore;
@@ -298,6 +304,7 @@
 				665056DF428F44E0C6511300 /* VideoImport.swift in Sources */,
 				E32D366C71EC36A52782AC87 /* VideoImportExecutor.swift in Sources */,
 				A33AD131D8CEDBC8B7C97872 /* VideoInspector.swift in Sources */,
+				B06499CCAC2D4B2244788EC3 /* WallpaperApplicationModels.swift in Sources */,
 				3970A413272C5DC9A39712FA /* WallpaperItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,6 +331,7 @@
 			files = (
 				58714F4DBC87F2BDFE3F3231 /* ManagedLibraryTests.swift in Sources */,
 				2CF429621DEFE8FDFAC21AD8 /* VideoImportTests.swift in Sources */,
+				3584E13CB604B32E8CB581C6 /* WallpaperApplicationModelsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

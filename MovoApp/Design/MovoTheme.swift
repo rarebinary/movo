@@ -12,6 +12,27 @@ enum MovoTheme {
     static let success = Color(red: 0.467, green: 0.710, blue: 0.541)
     static let warning = Color(red: 0.820, green: 0.659, blue: 0.369)
 
+    static let windowCanvas = LinearGradient(
+        stops: [
+            .init(color: Color(red: 0.025, green: 0.028, blue: 0.033), location: 0),
+            .init(color: voidBlack, location: 0.46),
+            .init(color: Color(red: 0.052, green: 0.058, blue: 0.067), location: 1)
+        ],
+        startPoint: .top,
+        endPoint: .bottom
+    )
+
+    static let stageScrim = LinearGradient(
+        stops: [
+            .init(color: .black.opacity(0.72), location: 0),
+            .init(color: .black.opacity(0.08), location: 0.24),
+            .init(color: .clear, location: 0.55),
+            .init(color: .black.opacity(0.78), location: 1)
+        ],
+        startPoint: .top,
+        endPoint: .bottom
+    )
+
     static let chrome = LinearGradient(
         stops: [
             .init(color: Color(red: 0.435, green: 0.455, blue: 0.486), location: 0),
@@ -28,9 +49,27 @@ enum MovoTheme {
         startPoint: .topLeading,
         endPoint: .bottomTrailing
     )
+
+    static let opticalWell = LinearGradient(
+        stops: [
+            .init(color: Color.white.opacity(0.10), location: 0),
+            .init(color: raisedGraphite.opacity(0.94), location: 0.18),
+            .init(color: projectionBlack.opacity(0.96), location: 1)
+        ],
+        startPoint: .top,
+        endPoint: .bottom
+    )
+
+    static let floatingSurface = Color(red: 0.055, green: 0.061, blue: 0.071).opacity(0.96)
 }
 extension View {
     func movoHairline<S: Shape>(_ shape: S, opacity: Double = 1) -> some View {
         overlay(shape.stroke(MovoTheme.hairline.opacity(opacity), lineWidth: 1))
+    }
+
+    func movoFloatingSurface<S: Shape>(_ shape: S) -> some View {
+        background(MovoTheme.floatingSurface, in: shape)
+            .movoHairline(shape, opacity: 0.9)
+            .shadow(color: .black.opacity(0.48), radius: 22, y: 12)
     }
 }

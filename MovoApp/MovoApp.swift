@@ -8,10 +8,12 @@ struct MovoApp: App {
     var body: some Scene {
         WindowGroup {
             WorkspaceView(model: model)
+                .ignoresSafeArea(.container, edges: .top)
                 .background(WindowConfigurator())
                 .preferredColorScheme(.dark)
         }
         .defaultSize(width: 1240, height: 790)
+        .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentMinSize)
         .commands {
             MovoCommands(model: model)
@@ -45,11 +47,20 @@ private struct WindowConfigurator: NSViewRepresentable {
         window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
         window.styleMask.insert(.fullSizeContentView)
-        window.backgroundColor = NSColor(MovoTheme.voidBlack)
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        window.hasShadow = true
+        window.titlebarSeparatorStyle = .none
         window.minSize = NSSize(width: 960, height: 640)
         window.collectionBehavior.insert(.fullScreenPrimary)
         window.isMovableByWindowBackground = false
         window.tabbingMode = .disallowed
+        if let contentView = window.contentView {
+            contentView.wantsLayer = true
+            contentView.layer?.cornerCurve = .continuous
+            contentView.layer?.cornerRadius = window.styleMask.contains(.fullScreen) ? 0 : 22
+            contentView.layer?.masksToBounds = true
+        }
     }
 }
 

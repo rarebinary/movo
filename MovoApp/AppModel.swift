@@ -20,7 +20,7 @@ final class WorkspaceModel {
     var wallpapers: [WallpaperItem] = []
     var selectedID: WallpaperItem.ID?
     var previewIsPlaying = true
-    var inspectorIsPresented = true
+    var inspectorIsPresented = false
     var searchRequested = false
     var searchText = ""
     var fitMode: FitMode = .fill { didSet { settingsDidChange() } }
@@ -30,6 +30,8 @@ final class WorkspaceModel {
     var focalPoint = UnitPoint.center { didSet { settingsDidChange() } }
     var linkDesktopAndLockScreen = true
     var applyToAllDisplays = false
+    var wallpaperTarget: WallpaperTarget = .both
+    var targetPickerIsPresented = false
     var lastNotice: WorkspaceNotice?
     var isImporting = false
 
@@ -189,6 +191,14 @@ final class WorkspaceModel {
             message: "Wallpaper extension integration is not active in this build yet.",
             kind: .warning
         )
+    }
+
+    var wallpaperTargetTitle: String {
+        switch wallpaperTarget {
+        case .both: "Both"
+        case .desktop: "Desktop"
+        case .lockScreen: "Lock Screen"
+        }
     }
 
     func deleteSelection(undoManager: UndoManager?) {
