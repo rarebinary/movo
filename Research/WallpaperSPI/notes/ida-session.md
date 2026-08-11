@@ -40,27 +40,35 @@ performed.
 and compatibility shims. This is evidence that the archive boundary is fragile;
 the proprietary diagnostic text is intentionally not reproduced here.
 
-## Private framework blocker
+## Private framework inspection
 
 `WallpaperExtensionKit.framework/WallpaperExtensionKit` resolves into the dyld
-shared cache rather than a standalone Mach-O file. The machine has IDA's shared
-cache loader but no standalone Apple shared-cache extraction utility. The SDK
-contains only a text-based stub, sufficient for exported symbols but not method
-implementation analysis.
+shared cache rather than a standalone Mach-O file. The SDK contains only a
+text-based stub. However, Apple's `/usr/bin/dyld_info` accepts the framework's
+logical path and inspects the matching cache-resident image read-only.
+
+The recorded image reports:
+
+- architecture `arm64e`;
+- UUID `2F2E867F-3729-35B7-AE95-2EC823B11353`;
+- platform/minimum SDK tuple macOS 26.3/26.3;
+- Swift exports for the high-level wallpaper, request, destination, snapshot,
+  host-proxy, and choice-request contracts described in
+  [`../compatibility-contract.md`](../compatibility-contract.md).
 
 Consequently:
 
 - exported symbol names from the `.tbd` are **observed**;
-- framework implementation behavior is **unknown**;
-- deriving request layouts from the extension alone is incomplete;
-- Phase 5 cannot declare the private compatibility contract stable.
+- framework export signatures are **observed** for this cache UUID;
+- private XPC archive layouts and callable ABI from an independent module remain
+  **unknown**;
+- Gate 1 still cannot declare the compatibility contract implementation-safe.
 
-The safe next research route is an IDA shared-cache session opened directly on a
-matching macOS cache, with findings tied to the same OS build fingerprint. It
-must remain read-only and produce sanitized notes rather than an extracted binary
-committed to the repository.
+The remaining research route is controlled runtime tracing in the disposable
+account, tied to the same OS build and cache UUID. It must remain sanitized and
+must not commit an extracted framework image.
 
-## G002 follow-up blocker
+## G002 follow-up resolution
 
 ### Observed
 
@@ -71,32 +79,32 @@ committed to the repository.
   text-based `.tbd` stub.
 - No installed Apple command-line dyld shared-cache extractor was found during
   this pass.
-- IDA MCP `idb_list` reported active workers for both the installed extension
-  binary and an ephemeral arm64 slice, but both entries had an empty
-  `session_id`.
-- Because the MCP session IDs were empty, follow-up analysis calls could not
-  target a usable database.
+- Opening the extension explicitly with `force_headless` and preferred session
+  ID `movo-wallspace-extension` produced a healthy, targetable database.
+- Opening the host with preferred session ID `movo-wallspace-host` likewise
+  produced a healthy database.
+- The extension session proved the full shared allowed-class set and exact 30
+  selector/index/reply tuples.
+- The host session exposed static provider-deployment and selection evidence.
 
 ### Inferred
 
-- The current IDA MCP state is not sufficient to continue scripted analysis of
-  the private framework or arm64 slice through normal MCP calls.
-- A stable compatibility contract cannot be derived from this G002 pass.
+- The prior empty-session condition was stale worker state and is no longer the
+  active blocker.
+- Static evidence substantially narrows the contract but cannot replace runtime
+  provider-selection reproduction.
 
 ### Unknown
 
-- Whether repairing or updating the IDA MCP worker/session state would expose
-  valid session IDs for the already-open databases.
-- Whether a reviewed dyld shared-cache extractor would produce an analyzable
-  framework image that matches the recorded macOS build fingerprint.
-- The private allowed classes, request object fields, reply layouts, and
-  snapshot payload contracts required for safe wallpaper activation.
+- Secure-coding keys and archive validation rules for each private model.
+- Timeout, ordering, and reply/error semantics.
+- Whether the high-level choice-request surface can select Movo as provider.
+- The twice-reproduced store or runtime-choice transaction required by Gate 1.
 
 ### Safety notes
 
-- No additional IDA analysis claims were made from the empty-session state.
+- All new IDA and `dyld_info` work remained read-only.
 - No wallpaper store, provider registration, system service, or Wallspace
   installation state was modified.
-- The smallest next actions are to repair/update IDA MCP session IDs or use a
-  reviewed dyld shared-cache extraction path, then resolve the allowed-class,
-  request, reply, and snapshot contracts before implementation.
+- The smallest next action is a controlled, fully recoverable provider-selection
+  experiment in the disposable account after Gate 0 passes.

@@ -87,6 +87,63 @@ and secure-coding machinery including `NSKeyedArchiver`, `NSXPCCoder`, and
 **Observed:** a compatibility shim named `ShimViewModelsXPC` reports secure-coding
 support.
 
-**Unknown:** complete allowed-class sets and their argument/reply indexes. Those
-must be captured from an analyzed framework image or controlled runtime tracing
-before constructing an independent interface.
+### Exported-interface allowed classes
+
+**Observed:** `sub_100033450` constructs one shared `NSMutableSet`, resolves the
+following 15 class names with `objc_getClass`, adds the Foundation classes below,
+bridges the result to `NSSet`, and applies that same set to 30 selector/index/reply
+tuples with `setClasses:forSelector:argumentIndex:ofReply:`.
+
+Private model classes:
+
+- `WallpaperIDXPC`
+- `WallpaperCreationRequestXPC`
+- `WallpaperUpdateRequestXPC`
+- `WallpaperRemoteContextXPC`
+- `WallpaperSnapshotXPC`
+- `WallpaperContentTypeSetXPC`
+- `WallpaperChoiceIDXPC`
+- `WallpaperChoiceIDsXPC`
+- `WallpaperExtensionChoiceRequestXPC`
+- `WallpaperChoiceRequestAdditionResultXPC`
+- `WallpaperDebugRequestXPC`
+- `WallpaperDebugResponseXPC`
+- `WallpaperMigrationVersionXPC`
+- `WallpaperSettingsViewModelsXPC`
+- `AuditTokenXPC`
+
+Foundation classes:
+
+- `NSString`, `NSNumber`, `NSData`, `NSArray`, `NSDictionary`, `NSURL`, `NSError`
+
+The exact observed tuples are:
+
+| Selector | Request argument indexes | Reply argument indexes |
+| --- | --- | --- |
+| `acquireWithId:request:reply:` | 0, 1 | 0 |
+| `updateWithId:request:reply:` | 0, 1 | — |
+| `invalidateWithId:reply:` | 0 | — |
+| `snapshotWithId:reply:` | 0 | 0 |
+| `provideSettingsViewModelsWithContentTypes:reply:` | 0 | 0 |
+| `addChoiceRequestWithChoiceRequest:onBehalfOfProcess:reply:` | 0, 1 | 0 |
+| `removeChoiceRequestWithChoiceRequest:reply:` | 0 | — |
+| `selectedChoicesDidChangeFor:reply:` | 0 | — |
+| `invokeContextMenuActionWithMenuItemID:groupItemID:reply:` | 0, 1 | — |
+| `isChoiceDownloadedWith:reply:` | 0 | — |
+| `downloadWithChoiceID:reply:` | 0 | — |
+| `pauseDownloadFor:reply:` | 0 | — |
+| `cancelDownloadFor:reply:` | 0 | — |
+| `resumeDownloadFor:reply:` | 0 | — |
+| `removeDownloadFor:reply:` | 0 | — |
+| `migrateSelectedChoiceFor:reply:` | 0 | 0 |
+| `migrateFrom:to:reply:` | 0, 1 | — |
+| `skipShuffledContentWithId:reply:` | 0 | — |
+| `canSkipShuffledContentWithId:reply:` | 0 | — |
+| `handleDebugRequestFor:reply:` | 0 | 0 |
+| `handleNotificationWithNamed:reply:` | 0 | — |
+
+**Unknown:** which member of the shared class set is valid for each tuple, the
+secure-coding keys and invariants of each private model, and whether this exact
+superset remains accepted on another build. The observed superset is therefore
+necessary evidence, but not sufficient authorization to construct a production
+interface.

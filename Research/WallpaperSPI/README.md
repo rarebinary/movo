@@ -55,8 +55,12 @@ research-gate failure, not a best-effort compatibility signal.
   model.
 - [`notes/store-schema.md`](notes/store-schema.md) — read-only wallpaper store
   observations.
+- [`notes/provider-selection.md`](notes/provider-selection.md) — sanitized static
+  evidence for the host activation path and its remaining runtime gap.
 - [`notes/ida-session.md`](notes/ida-session.md) — reproducible IDA evidence and
-  remaining extraction blocker.
+  read-only framework inspection route.
+- [`compatibility-contract.md`](compatibility-contract.md) — build-fingerprinted
+  Observed/Inferred/Unknown boundary for future implementation.
 - [`fixtures/index-schema-sanitized.plist`](fixtures/index-schema-sanitized.plist)
   — synthetic, non-user fixture illustrating only the observed schema shape.
 - [`scripts/collect-readonly.sh`](scripts/collect-readonly.sh) — evidence commands
@@ -66,42 +70,39 @@ research-gate failure, not a best-effort compatibility signal.
 
 ## Known blockers
 
-1. The private framework image lives in the dyld shared cache. The filesystem
-   framework path is only a symlink, and no command-line shared-cache extractor
-   is installed. Its implementation has therefore not been analyzed. A G002
-   follow-up also observed `WallpaperExtensionKit` in dyld runtime mappings, but
-   IDA MCP database entries for the installed binary and an ephemeral arm64 slice
-   had empty `session_id` values, so no additional targeted analysis could be
-   performed through MCP.
+1. The private framework image lives in the dyld shared cache and the SDK offers
+   no importable Swift module. `/usr/bin/dyld_info` now proves its UUID and Swift
+   export surface, but a callable ABI-safe client contract is still unproven.
 2. No controlled before/after store capture has been made for linked versus
    separated desktop/lock-screen assignments or for a second physical display.
 3. Available lifecycle logs demonstrated Apple's wallpaper runtime but did not
    prove that the Wallspace extension was the active provider during capture.
-4. Private request object fields, allowed-class indexes, and snapshot wire
-   layouts remain partly opaque. Runtime use must not be implemented from names
-   alone.
+4. The allowed-class superset and indexes are now observed, but private
+   secure-coding keys, archive invariants, timeout/error semantics, and provider
+   selection reproduction remain unresolved.
 
 ## G002 safety checkpoint
 
-**Observed:** the runtime framework image appears loaded, the SDK still exposes
-only a `.tbd` stub, and the local machine had no installed Apple dyld
-shared-cache extractor available to produce a reviewed standalone framework
-Mach-O.
+**Observed:** an explicit IDA MCP headless session named
+`movo-wallspace-extension` now opens the installed extension with completed
+autoanalysis and Hex-Rays. `/usr/bin/dyld_info` inspects the matching private
+framework image directly in the dyld shared cache and reports UUID
+`2F2E867F-3729-35B7-AE95-2EC823B11353`.
 
-**Observed:** IDA MCP listed active workers for the installed Wallspace extension
-binary and an ephemeral arm64 slice, but both worker records had empty
-`session_id` values. Analysis calls therefore had no valid database target.
+**Observed:** the complete shared allowed-class set and all 30
+selector/index/reply tuples were recovered from the extension's XPC interface
+configuration. A second read-only IDA session, `movo-wallspace-host`, exposed
+static host evidence for deployment, store selection, extension activation, and
+runtime restart services.
 
-**Inferred:** G002 is blocked on research plumbing, not on an implementation
-decision. The compatibility layer must remain fail-closed.
+**Inferred:** the previous empty-session blocker was tooling state, not a missing
+binary. G002 is now blocked on runtime reproduction and model semantics rather
+than IDA plumbing.
 
-**Unknown:** the allowed classes, request/reply object layout, snapshot payload,
-and provider-selection contract needed to mutate desktop or lock-screen state
-safely.
+**Unknown:** private secure-coding fields, reply/error/time-out rules, callable
+framework ABI, and a twice-reproduced provider-selection transaction.
 
-No further IDA claims were made from this state. No wallpaper store mutation,
-provider registration, service restart, or Wallspace installation change was
-performed. The smallest next actions are to repair/update the IDA MCP session
-IDs or use a reviewed dyld shared-cache extraction path, then resolve the
-allowed-class, request, reply, and snapshot contracts before implementing
-activation.
+No wallpaper store mutation, provider registration, service restart, or
+Wallspace installation change was performed. The next safe action is a
+controlled runtime experiment in the disposable `movo-lab` account after Gate 0
+is satisfied; product activation remains disabled.
